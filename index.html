@@ -1,475 +1,457 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>天氣小助手</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <!-- PWA Meta 標籤 -->
-  <meta name="theme-color" content="#38bdf8">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="天氣小助手">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3ZF05L180"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <!-- 🌐 1. Windows / 電腦版瀏覽器 Tab 頁籤 Favicon 圖示 -->
-  <link rel="shortcut icon" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
-
-  <!-- 📱 2. Mobile Chrome / Android / 通用瀏覽器 Icon -->
-  <link rel="icon" type="image/png" sizes="192x192" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
-
-  <!-- 🍏 3. iOS Apple Touch Icon (加至主畫面圖示) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="https://msbecky5354.github.io/JSON/img/icon-512.png">
-
-  <!-- 📦 4. PWA Inline Manifest -->
-  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22short_name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23e0f2fe%22%2C%22theme_color%22%3A%22%2338bdf8%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-192.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-512.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome 圖標庫 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600;700;900&display=swap');
+      gtag('config', 'G-W3ZF05L180');
+    </script>
     
-    body {
-      font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 40%, #fef3c7 100%);
-      min-height: 100vh;
-    }
+    <!-- 🌟 SEO 搜尋引擎優化核心區 🌟 -->
+    <title>懶人工具駅 | Lazy Tools Station - 強勢推出 EduMind AI 及實用工具集</title>
+    <meta name="description" content="懶人工具駅 (Lazy Tools Station) 強勢推出 EduMind AI 智能學習大腦！提供多款專為香港人而設的免費實用 Web App 及 WhatsApp 實用資訊群組。涵蓋極速交通 ETA、超市格價、香港每日天氣早報及大灣區北上交通飲食攻略，即開即用！">
+    <meta name="keywords" content="EduMind AI, AI 學習, 免費App, 實用工具, 香港, Web App, 免安裝, 天氣小助手, WhatsApp天氣, 中山天氣, 貼地通, 巴士ETA, 慳真D, 超市格價, 心靈補給站, 北上攻略, 深中通道, 大灣區, 跨境巴士, 中山美食, lazy tools station">
+    <meta name="author" content="懶人工具駅">
+    
+    <!-- 🌟 社交媒體分享預覽 (Open Graph) 🌟 -->
+    <meta property="og:title" content="懶人工具駅 | 強勢推出 EduMind AI 及免費實用 Web App 集">
+    <meta property="og:description" content="全新 EduMind AI 智能大腦登場！專為香港人而設的完全免費工具集。涵蓋交通、格價、每日天氣預報及大灣區北上攻略。">
+    <meta property="og:type" content="website">
+    <meta name="google-site-verification" content="Hc5hN1_E9_sRd-qshFZDMPThUHWkh4-9ajxGvxR43wE" />
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-    }
-
-    .pulse-dot {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .4; }
-    }
-
-    .alert-pulse {
-      animation: alertPulse 1.5s infinite;
-    }
-
-    @keyframes alertPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.02); opacity: 0.95; }
-    }
-  </style>
+    <!-- 載入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .app-card { transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid transparent; }
+        .app-card:hover { transform: translateY(-3px); box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); border-color: #e2e8f0; }
+        .banner-bg {
+            background-image: url('LTS_BANNER.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+        /* Modal 動畫效果 */
+        .modal-enter { opacity: 1 !important; visibility: visible !important; }
+        .modal-enter .modal-content { transform: scale(1) !important; opacity: 1 !important; }
+        
+        /* ✨ 新增：閃閃掃光特效 ✨ */
+        .shine-sweep {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine-sweep::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255, 235, 150, 0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+            animation: shine 3s infinite;
+            z-index: 20;
+            pointer-events: none;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+    </style>
 </head>
-<body class="flex flex-col items-center justify-start p-4 md:p-8 text-slate-800">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-  <div class="w-full max-w-md mx-auto space-y-6 my-4">
-
-    <!-- 標頭區塊 (右上角加入 PWA 安裝按鈕) -->
-    <header class="relative text-center space-y-2 pt-2">
-      <!-- 📲 右上角：加至主畫面按鈕 -->
-      <button onclick="openPwaModal()" class="absolute top-0 right-0 bg-white/90 hover:bg-white text-sky-700 border border-sky-200 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95">
-        <span>📲</span> 加至主畫面
-      </button>
-
-      <div class="inline-flex items-center gap-2 bg-white/80 px-4 py-1.5 rounded-full shadow-sm text-sm font-bold text-amber-700 border border-amber-200">
-        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full pulse-dot"></span>
-        雲端即時同步中
-      </div>
-      <h1 class="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">
-        🌤️ 天氣小助手
-      </h1>
+    <!-- 頂部橫幅與 Logo 區 -->
+    <header class="banner-bg relative py-12 md:py-16 flex flex-col items-center justify-center shadow-md min-h-[320px]">
+        <div class="absolute inset-0 bg-black/40"></div> 
+        
+        <!-- 🌐 三語切換選單 -->
+        <div class="absolute top-4 right-4 z-50">
+            <select id="langSelector" onchange="changeLang(this.value)" class="bg-black/60 hover:bg-black/80 text-white border border-white/30 rounded-lg px-3 py-1.5 text-sm outline-none backdrop-blur-md cursor-pointer transition-colors font-medium shadow-lg">
+                <option value="tc" class="bg-slate-800 text-white">繁體中文</option>
+                <option value="sc" class="bg-slate-800 text-white">简体中文</option>
+                <option value="en" class="bg-slate-800 text-white">English</option>
+            </select>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center px-6 py-8 mt-6 bg-slate-900/60 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl max-w-[90%] md:max-w-2xl w-full">
+            <img src="LTS_logo.jpg" alt="LTS Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-2xl shadow-xl border-2 border-white mb-4 object-cover bg-white transition-transform hover:scale-105">
+            <h1 class="text-3xl md:text-4xl font-black text-white tracking-wider drop-shadow-lg" data-i18n="heroTitle">懶人工具駅</h1>
+            <p class="text-slate-200 mt-2 font-medium text-[13px] md:text-base drop-shadow-md" data-i18n="heroDesc">完全免費、免下載、免安裝的 Web App 平台 · 專為香港人而設</p>
+            
+            <div class="mt-6 inline-flex items-center gap-2 bg-[#B8860B] text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-yellow-900/50 animate-bounce cursor-default border border-yellow-400/50">
+                <span data-i18n="heroCTA">👇 點選下方圖示，即開即用！</span>
+            </div>
+        </div>
     </header>
 
-    <!-- 🇭🇰 香港 / 🇨🇳 中山 雙分頁 Tabs -->
-    <div class="flex rounded-2xl bg-slate-200/80 p-1.5 gap-1.5 shadow-inner">
-      <button id="tab-hk" onclick="switchCity('hk')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md">
-        <span>🇭🇰</span> 香港
-      </button>
-      <button id="tab-zs" onclick="switchCity('zs')" class="flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900">
-        <span>🇨🇳</span> 中山
-      </button>
-    </div>
+    <main class="max-w-5xl mx-auto px-4 py-10 flex-1 w-full">
+        
+        <!-- 🇭🇰 第一展區：香港本地專櫃 -->
+        <section class="mb-14">
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-slate-200 pb-3">
+                <span class="text-2xl drop-shadow-sm">🇭🇰</span>
+                <h2 class="text-xl md:text-2xl font-black text-slate-800 tracking-wide" data-i18n="sec1Title">香港人專櫃</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                
+                <!-- 🚀 EduMind AI -->
+                <a href="#" onclick="openEduMindModal(event)" class="app-card block bg-blue-50/40 rounded-2xl p-4 md:p-5 shadow-sm group border-2 border-blue-400/50 hover:border-blue-500 transition-all relative overflow-hidden cursor-pointer">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-blue-400 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="flex gap-4 items-center relative z-10">
+                        <div class="w-16 md:w-20 h-16 md:h-20 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shrink-0 transition-transform group-hover:scale-105 border-2 border-white">
+                            <svg class="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </div>
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-blue-700 transition-colors leading-tight" data-i18n="app8Title">EduMind AI</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] md:text-[10px] font-black rounded bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 text-amber-950 shadow-sm shrink-0 whitespace-nowrap animate-pulse border border-yellow-300" data-i18n="tagEdu">🚀 強勢登場</span>
+                            </div>
+                            <p class="text-[13px] text-slate-600 leading-snug font-medium" data-i18n="app8Desc">點擊了解更多！顛覆傳統嘅混合雲端 SaaS 學習平台，將學習主導權交還畀你。</p>
+                        </div>
+                    </div>
+                </a>
 
-    <!-- 主內容卡片 -->
-    <main class="glass-card rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden">
-      <!-- 頂部彩虹裝飾條 -->
-      <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-sky-400 via-amber-400 to-rose-400"></div>
+                <!-- 貼地通 -->
+                <a href="https://hk-transit-hub.vercel.app/" onclick="trackAppClick('貼地通', 'https://hk-transit-hub.vercel.app/', event)" target="_blank" class="app-card block bg-white rounded-2xl p-4 md:p-5 shadow-sm group">
+                    <div class="flex gap-4 items-center">
+                        <img src="https://hk-transit-hub.vercel.app/HKTH.png" alt="貼地通" class="w-24 md:w-28 h-16 md:h-20 rounded-xl object-contain shrink-0 transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-[#B8860B] transition-colors leading-tight" data-i18n="app1Title">貼地通</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-[#B8860B]/10 text-[#B8860B] shrink-0 whitespace-nowrap" data-i18n="tagTransit">交通出行</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app1Desc">極速、零廣告交通 ETA 儀表板，自訂專屬路線。</p>
+                        </div>
+                    </div>
+                </a>
 
-      <!-- 更新時間同標籤 -->
-      <div class="flex items-center justify-between text-xs md:text-sm text-slate-500 border-b border-slate-100 pb-4">
-        <span class="flex items-center gap-1.5 font-bold text-sky-700">
-          <i class="fa-solid fa-clock"></i> <span id="update-time">載入數據中...</span>
-        </span>
-        <span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-md" id="city-badge">
-          🇭🇰 香港地區
-        </span>
-      </div>
+                <!-- 慳真D -->
+                <a href="https://hk-price-watch.vercel.app/" onclick="trackAppClick('慳真D', 'https://hk-price-watch.vercel.app/', event)" target="_blank" class="app-card block bg-white rounded-2xl p-4 md:p-5 shadow-sm group">
+                    <div class="flex gap-4 items-center">
+                        <img src="https://hk-price-watch.vercel.app/logo.JPG" alt="慳真D" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-blue-600 transition-colors leading-tight" data-i18n="app2Title">慳真D</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-50 text-blue-600 shrink-0 whitespace-nowrap" data-i18n="tagPrice">精明格價</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app2Desc">全港超市真實價格追蹤器，以客觀數據識破定價幻覺，發掘真正折扣。</p>
+                        </div>
+                    </div>
+                </a>
 
-      <!-- 天氣廣東話內容 (2 個獨立 Box 架構) -->
-      <div id="weather-content" class="min-h-[180px] flex flex-col justify-center space-y-4">
-        <div class="text-center py-8 text-slate-400 space-y-3">
-          <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
-          <p class="text-base font-medium">正喺 GitHub 提取最新天氣數據...</p>
-        </div>
-      </div>
+                <!-- 心靈補給站 -->
+                <a href="https://soul-station.vercel.app/" onclick="trackAppClick('心靈補給站', 'https://soul-station.vercel.app/', event)" target="_blank" class="app-card block bg-white rounded-2xl p-4 md:p-5 shadow-sm group">
+                    <div class="flex gap-4 items-center">
+                        <img src="https://soul-station.vercel.app/icon-512x512.png" alt="心靈補給站" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-purple-600 transition-colors leading-tight" data-i18n="app3Title">心靈補給站</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-purple-50 text-purple-600 shrink-0 whitespace-nowrap" data-i18n="tagWellness">情緒補給</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app3Desc">你的專屬情緒樹洞與金句庫，AI 輔助情緒急救。</p>
+                        </div>
+                    </div>
+                </a>
 
-      <!-- 卡片底部手動刷新按鈕 -->
-      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-        <span>💡 隨時點擊切換地區或重新載入</span>
-        <button onclick="fetchWeather(currentCity)" class="text-sky-600 hover:text-sky-800 font-bold flex items-center gap-1 text-sm">
-          <i class="fa-solid fa-rotate-right"></i> 重新載入
-        </button>
-      </div>
+             <!-- 香港天氣小助手 -->
+                <a href="https://msbecky5354.github.io/weather_assistant/" onclick="trackAppClick('天氣小助手', 'https://msbecky5354.github.io/weather_assistant/', event)" target="_blank" class="app-card block bg-white rounded-2xl p-4 md:p-5 shadow-sm group border-2 border-sky-50">
+                    <div class="flex gap-4 items-center">
+                        <img src="https://msbecky5354.github.io/JSON/img/ICON.svg" alt="天氣小助手" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm bg-white transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-sky-600 transition-colors leading-tight" data-i18n="app6Title">天氣小助手</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-sky-100 text-sky-700 shrink-0 whitespace-nowrap">Web App</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app6Desc">即時天氣提示、極端天氣預警與地道廣東話關懷提醒。</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 🌉 第二展區：大灣區北上專區 -->
+        <section>
+            <div class="flex items-center gap-2 mb-6 border-b-2 border-slate-200 pb-3">
+                <span class="text-2xl drop-shadow-sm">🌉</span>
+                <h2 class="text-xl md:text-2xl font-black text-slate-800 tracking-wide" data-i18n="sec2Title">大灣區北上專區</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+                <!-- 深中珠巴士懶人包 -->
+                <a href="https://szbus-web.vercel.app/" onclick="trackAppClick('深中珠巴士懶人包', 'https://szbus-web.vercel.app/', event)" target="_blank" class="app-card shine-sweep block bg-white rounded-2xl p-4 md:p-5 shadow-sm group">
+                    <div class="flex gap-4 items-center relative z-10">
+                        <img src="https://msbecky5354.github.io/GBA-BUS/logo.png" alt="深中珠巴士" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm bg-white transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-teal-600 transition-colors leading-tight" data-i18n="app4Title">深中珠巴士懶人包</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-teal-50 text-teal-600 shrink-0 whitespace-nowrap" data-i18n="tagCross">跨境交通</span>
+                                <span class="px-1.5 py-0.5 text-[9px] font-black rounded bg-gradient-to-r from-rose-500 to-pink-500 text-white shrink-0 whitespace-nowrap shadow-sm shadow-rose-200" data-i18n="tagNoVPN">✨ 免翻牆</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app4Desc">一站式整合深圳、中山、珠海跨城巴士路線及購票。</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 中山美食地圖 -->
+                <a href="https://zhongshan-food-map.vercel.app/" onclick="trackAppClick('中山美食地圖', 'https://zhongshan-food-map.vercel.app/', event)" target="_blank" class="app-card shine-sweep block bg-white rounded-2xl p-4 md:p-5 shadow-sm group">
+                    <div class="flex gap-4 items-center relative z-10">
+                        <img src="https://msbecky5354.github.io/zhongshan-food-map/app-icon-512.png" alt="中山美食地圖" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm bg-white transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-orange-500 transition-colors leading-tight" data-i18n="app5Title">中山美食地圖</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-orange-50 text-orange-600 shrink-0 whitespace-nowrap" data-i18n="tagFood">飲食指南</span>
+                                <span class="px-1.5 py-0.5 text-[9px] font-black rounded bg-gradient-to-r from-rose-500 to-pink-500 text-white shrink-0 whitespace-nowrap shadow-sm shadow-rose-200" data-i18n="tagNoVPN">✨ 免翻牆</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app5Desc">精選中山地道必食餐廳、招牌菜，北上搵食必備。</p>
+                        </div>
+                    </div>
+                </a>
+
+             <!-- 中山天氣小助手 -->
+                <a href="https://msbecky5354.github.io/weather_assistant/" onclick="trackAppClick('中山天氣小助手', 'https://msbecky5354.github.io/weather_assistant/', event)" target="_blank" class="app-card block bg-white rounded-2xl p-4 md:p-5 shadow-sm group border-2 border-emerald-50">
+                    <div class="flex gap-4 items-center">
+                        <img src="https://msbecky5354.github.io/JSON/img/ICON.svg" alt="中山天氣小助手" class="w-16 md:w-20 h-16 md:h-20 rounded-2xl object-cover shrink-0 border border-slate-100 shadow-sm bg-white transition-transform group-hover:scale-105">
+                        <div class="flex flex-col justify-center w-full min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-[17px] font-black text-slate-800 group-hover:text-emerald-600 transition-colors leading-tight" data-i18n="app7Title">中山天氣小助手</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-100 text-emerald-700 shrink-0 whitespace-nowrap">Web App</span>
+                            </div>
+                            <p class="text-[13px] text-slate-500 leading-snug" data-i18n="app7Desc">中山地區即時氣象提示、極端天氣預警與北上關懷提醒。</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
     </main>
 
-    <!-- 頁尾 (Footer) -->
-    <footer class="text-center space-y-1.5 pt-2">
-      <div>
-        <button onclick="openModal()" class="text-indigo-600 hover:text-indigo-800 font-medium text-xs underline underline-offset-2">
-          關於我們、條款及免責聲明
-        </button>
-      </div>
-      <div class="text-xs text-slate-500 font-medium">
-        開發團隊：<a href="https://lazytoolsstation.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-amber-700 hover:text-amber-900 font-bold underline underline-offset-2">懶人工具駅</a>
-      </div>
+    <!-- 頁尾 -->
+    <footer class="bg-white py-8 text-center border-t border-slate-200 mt-auto">
+        <div class="flex justify-center items-center mb-2">
+            <div class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2">
+                    <img src="LTS_logo.jpg" alt="Logo" class="w-5 h-5 rounded-md object-cover border border-slate-200">
+                    <h3 class="font-bold text-slate-700 text-sm" data-i18n="footerTitle">懶人工具駅</h3>
+                </div>
+                <div class="w-px h-4 bg-slate-300 mx-1"></div>
+                <a href="https://www.facebook.com/profile.php?id=61590310737697" target="_blank" onclick="trackSocialClick('Facebook')" title="Facebook 專頁" class="hover:scale-110 hover:opacity-80 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                </a>
+                <a href="https://www.youtube.com/@懶人工具駅" target="_blank" onclick="trackSocialClick('YouTube')" title="YouTube 頻道" class="hover:scale-110 hover:opacity-80 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                </a>
+            </div>
+        </div>
+        <p class="text-xs text-slate-500 font-medium mt-3" data-i18n="footerCopyright">© 2026 Lazy Tools Station. All Rights Reserved.</p>
+        <p class="text-[10px] text-slate-400 mt-1" data-i18n="footerAI">Proudly co-created with AI</p>
     </footer>
 
-  </div>
-
-  <!-- 📲 PWA 加至主畫面教學 Modal -->
-  <div id="pwa-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-5 relative shadow-2xl border border-white">
-      
-      <!-- 關閉按鈕 -->
-      <button onclick="closePwaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">
-        ✕
-      </button>
-
-      <!-- 標題 -->
-      <div class="text-center border-b border-slate-100 pb-3">
-        <h2 class="text-2xl font-black text-slate-800 flex items-center justify-center gap-2">
-          <span>📲</span> 安裝「天氣小助手」App
-        </h2>
-        <p class="text-xs text-slate-500 mt-1">無需經 App Store / Google Play，一鍵加至手機桌面！</p>
-      </div>
-
-      <!-- 內容區 -->
-      <div class="space-y-4 text-slate-700 text-sm leading-relaxed">
-        
-        <!-- iOS Safari 教學 -->
-        <div class="bg-sky-50/80 p-4 rounded-2xl border border-sky-100 space-y-2">
-          <div class="font-extrabold text-sky-800 flex items-center gap-2 text-base">
-            <span>🍏</span> iPhone / iPad (Safari 瀏覽器)
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
-            <li>點擊 Safari 瀏覽器底部的 <b>「分享」按鈕 ⎋</b></li>
-            <li>向上滑動選單，點擊 <b>「加至主畫面 ➕」</b></li>
-            <li>點擊右上角 <b>「加入」</b> 即完成安裝！</li>
-          </ol>
-        </div>
-
-        <!-- Android Chrome 教學 -->
-        <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-100 space-y-2">
-          <div class="font-extrabold text-emerald-800 flex items-center gap-2 text-base">
-            <span>🤖</span> Android (Chrome 瀏覽器)
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
-            <li>點擊 Chrome 右上角的 <b>選單按鈕 (三點 ⋮)</b></li>
-            <li>點擊 <b>「新增至主畫面」</b> 或 <b>「安裝應用程式」</b></li>
-            <li>點擊 <b>「新增 / 安裝」</b> 即完成！</li>
-          </ol>
-        </div>
-
-      </div>
-
-      <!-- 底部關閉按鈕 -->
-      <div class="pt-2 text-center">
-        <button onclick="closePwaModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all text-sm">
-          我明白咗
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 關於我們 & 條款 彈出視窗 (Modal) -->
-  <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl border border-white">
-      
-      <!-- 關閉按鈕 -->
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">
-        ✕
-      </button>
-
-      <!-- 標題 -->
-      <div class="text-center border-b border-slate-100 pb-3">
-        <h2 class="text-2xl font-black text-slate-800">🌤️ 關於我們與條款</h2>
-      </div>
-
-      <!-- 內容區 -->
-      <div class="space-y-6 text-slate-700 text-sm md:text-base leading-relaxed">
-        
-        <!-- 關於我們 -->
-        <section class="space-y-2">
-          <h3 class="text-lg font-extrabold text-sky-700 flex items-center gap-2">
-            <span>📍</span> 關於「天氣小助手」
-          </h3>
-          <p class="bg-sky-50/60 p-4 rounded-2xl border border-sky-100 text-slate-700 font-medium leading-relaxed">
-            「天氣小助手」係一款專為<b>香港人</b>，以及<b>港車北上到中山玩樂或生活嘅香港朋友</b>而設嘅即時氣象應用。<br><br>
-            透過<b>清晰醒目、地道廣東話</b>嘅即時天氣提示，將冷冰冰嘅氣象數字轉化為實用提醒。無論你身喺香港，定係揸車北上中山消費、旅遊或定居，點開就能一目了然掌握兩地最新天氣變化，出門帶雨傘、降溫加件衫，為你嘅跨城生活同行程帶來多一份安心。
-          </p>
-        </section>
-
-        <!-- 免責聲明與使用條款 -->
-        <section class="space-y-2">
-          <h3 class="text-lg font-extrabold text-amber-700 flex items-center gap-2">
-            <span>⚖️</span> 使用條款與免責聲明
-          </h3>
-          <ol class="list-decimal list-inside space-y-2 bg-amber-50/60 p-4 rounded-2xl border border-amber-100 text-slate-700 font-medium">
-            <li><b>數據來源</b>：本應用程式之氣候資訊均引述自官方氣象公開數據，並透過自動化系統進行廣東話關懷語句整理。</li>
-            <li><b>僅供參考</b>：所有氣象資訊、貼心提醒及極端天氣警報僅供個人日常參考，並不構成官方權威氣象發布。</li>
-            <li><b>官方發布</b>：如遇極端天氣（例如颱風、暴雨警報），請務必以<b>香港天文台</b>或<b>中山市氣象局</b>之官方最新發布為準。</li>
-            <li><b>私隱承諾</b>：本程式為純前端應用（PWA），<b>完全不會</b>收集、儲存或傳送使用者之任何個人資料、位置資訊或瀏覽紀錄。</li>
-            <li><b>免責聲明</b>：對於因參考本程式資訊而引致之任何直接或間接影響，本程式概不承擔任何法律責任。</li>
-          </ol>
-        </section>
-
-      </div>
-
-      <!-- 底部按鈕 -->
-      <div class="pt-2 text-center">
-        <button onclick="closeModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all">
-          我明白咗
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    let currentCity = 'hk';
-    
-    // 獨立數據接口
-    const endpoints = {
-      hk_routine: 'https://msbecky5354.github.io/JSON/data/hk_weather.json',
-      zs_routine: 'https://msbecky5354.github.io/JSON/data/zs_weather.json',
-      hk_special: 'https://msbecky5354.github.io/JSON/data/hk_special_weather.json',
-      zs_special: 'https://msbecky5354.github.io/JSON/data/zs_special_weather.json'
-    };
-
-    function switchCity(city) {
-      currentCity = city;
-      
-      const btnHk = document.getElementById('tab-hk');
-      const btnZs = document.getElementById('tab-zs');
-      const badge = document.getElementById('city-badge');
-
-      if (city === 'hk') {
-        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md';
-        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
-        badge.innerText = '🇭🇰 香港地區';
-        badge.className = 'bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-md';
-      } else {
-        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-emerald-700 shadow-md';
-        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
-        badge.innerText = '🇨🇳 中山地區';
-        badge.className = 'bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md';
-      }
-
-      fetchWeather(city);
-    }
-
-    async function fetchWeather(city) {
-      const contentEl = document.getElementById('weather-content');
-      const timeEl = document.getElementById('update-time');
-      
-      contentEl.innerHTML = `
-        <div class="text-center py-8 text-slate-400 space-y-3">
-          <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
-          <p class="text-base font-medium">更新緊 ${city === 'hk' ? '香港' : '中山'} 最新氣候數據...</p>
-        </div>
-      `;
-
-      const timestamp = '?t=' + new Date().getTime();
-      const routineUrl = endpoints[city + '_routine'] + timestamp;
-      const specialUrl = endpoints[city + '_special'] + timestamp;
-
-      let routineMsg = null;
-      let specialMsg = null;
-
-      // 📦 Box 1 數據獨立 Fetch (常規預報)
-      try {
-        const routineRes = await fetch(routineUrl);
-        if (routineRes.ok) {
-          const routineData = await routineRes.json();
-          if (routineData) {
-            const key = city === 'hk' ? 'hk_message' : 'zs_message';
-            routineMsg = routineData[key] || routineData.hk_message || routineData.zs_message || routineData.message || (typeof routineData === 'string' ? routineData : null);
-          }
-        }
-      } catch (err) {
-        console.warn('常規天氣 Fetch 狀態：', err);
-      }
-
-      // 📦 Box 2 數據獨立 Fetch (前線突發哨兵)
-      try {
-        const specialRes = await fetch(specialUrl);
-        if (specialRes.ok) {
-          const specialData = await specialRes.json();
-          if (specialData) {
-            const key = city === 'hk' ? 'hk_message' : 'zs_message';
-            specialMsg = specialData[key] || specialData.hk_message || specialData.zs_message || specialData.message || (typeof specialData === 'string' ? specialData : null);
-          }
-        }
-      } catch (err) {
-        console.warn('突發預警 Fetch 狀態 (正常無視)：', err);
-      }
-
-      let htmlBuilder = '';
-      const isHk = city === 'hk';
-
-      // 1. 🌤️ 渲染 Box 1：常規天氣 Message (在上)
-      if (routineMsg && typeof routineMsg === 'string' && routineMsg.trim() !== '') {
-        let formattedRoutine = routineMsg
-          .replace(/\\n/g, '<br>')
-          .replace(/\n/g, '<br>')
-          .trim();
-        
-        const boxBg = isHk ? 'bg-sky-50/80 border-sky-100' : 'bg-emerald-50/80 border-emerald-100';
-
-        htmlBuilder += `
-          <div class="${boxBg} p-5 rounded-2xl border text-slate-800 shadow-inner leading-loose text-lg md:text-xl font-medium">
-            ${formattedRoutine}
-          </div>
-        `;
-      }
-
-      // 2. 🚨 渲染 Box 2：【前線突發哨兵】極端預警卡片 (在下)
-      if (specialMsg && typeof specialMsg === 'string' && specialMsg.trim() !== '' && !specialMsg.includes('警報解除')) {
-        let cleanSpecial = specialMsg
-          .replace(/\\n/g, '<br>')
-          .replace(/\n/g, '<br>')
-          .replace(/\*/g, '')
-          .trim();
-
-        let boxBgColor = '#dc2626'; // 預設紅色
-        let textColor = '#ffffff';  // 預設白字
-        let headerColor = 'text-yellow-300'; // 標題顏色
-
-        if (isHk) {
-          // 🇭🇰 香港風球/暴雨顏色比對
-          if (specialMsg.includes('一號')) {
-            boxBgColor = '#fca5a5'; // 1 號風球：柔和 Light Pink
-          } else if (specialMsg.includes('三號')) {
-            boxBgColor = '#f97316'; // 3 號風球：鮮橙色
-          } else if (specialMsg.includes('八號')) {
-            boxBgColor = '#b91c1c'; // 8 號風球：深烈紅
-          } else if (specialMsg.includes('九號') || specialMsg.includes('十號')) {
-            boxBgColor = '#450a0a'; // 9/10 號風球：漆黑紅
-          } else if (specialMsg.includes('黃色')) {
-            boxBgColor = '#d97706'; // 黃雨：黃橙色
-          } else if (specialMsg.includes('黑色')) {
-            boxBgColor = '#09090b'; // 黑雨：漆黑色
-          }
-        } else {
-          // 🇨🇳 中山官方預警顏色比對
-          if (specialMsg.includes('白')) {
-            boxBgColor = '#ffffff'; // 白色預警：白底
-            textColor = '#1e293b';  // 深色字
-            headerColor = 'text-amber-600';
-          } else if (specialMsg.includes('藍') || specialMsg.includes('蓝')) {
-            boxBgColor = '#2563eb'; // 藍色預警：藍底
-          } else if (specialMsg.includes('黃') || specialMsg.includes('黄')) {
-            boxBgColor = '#eab308'; // 黃色預警：黃底
-            textColor = '#1e293b';  // 深色字
-            headerColor = 'text-amber-900';
-          } else if (specialMsg.includes('橙')) {
-            boxBgColor = '#f97316'; // 橙色預警：橙底
-          } else if (specialMsg.includes('紅') || specialMsg.includes('红')) {
-            boxBgColor = '#dc2626'; // 紅色預警：紅底
-          }
-        }
-
-        htmlBuilder += `
-          <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 rounded-2xl shadow-lg border-2 border-slate-200/50 alert-pulse space-y-2 mt-4 transition-colors duration-500">
-            <div class="flex items-center gap-2 font-black text-xl ${headerColor}">
-              <span class="text-2xl">🚨</span> 突發極端天氣警報
+    <!-- 🚀 EduMind AI 彈出視窗 (Modal) -->
+    <div id="edumindModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm px-4 opacity-0 invisible transition-all duration-300" onclick="if(event.target === this) closeEduMindModal()">
+        <div class="modal-content bg-white w-full max-w-lg rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 transform scale-95 opacity-0 transition-all duration-300 relative">
+            <button onclick="closeEduMindModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors bg-slate-100 hover:bg-slate-200 rounded-full p-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex items-center gap-3 mb-5 border-b border-slate-100 pb-5">
+                <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-black text-slate-800 leading-tight" data-i18n="modalEduTitle">EduMind AI 核心理念</h2>
+                    <p class="text-xs text-blue-600 font-bold mt-1" data-i18n="modalEduSub">即將強勢推出 · 敬請期待</p>
+                </div>
             </div>
-            <div class="text-lg md:text-xl font-bold leading-relaxed">
-              ${cleanSpecial}
-            </div>
-          </div>
-        `;
-      }
+            <div class="text-sm md:text-base text-slate-600 leading-relaxed space-y-4" data-i18n="modalEduObj"></div>
+            <button onclick="closeEduMindModal()" class="mt-8 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-sm" data-i18n="modalEduBtn">了解並關閉視窗</button>
+        </div>
+    </div>
 
-      // 渲染終極結果
-      if (htmlBuilder !== '') {
-        contentEl.innerHTML = htmlBuilder;
-        timeEl.innerText = '最後更新：' + new Date().toLocaleString('zh-HK');
-      } else {
-        contentEl.innerHTML = `
-          <div class="text-center py-8 text-slate-500 font-medium text-lg space-y-2">
-            <p>🔄 數據更新中，請稍候...</p>
-          </div>
-        `;
-        timeEl.innerText = '暫無最新更新';
-      }
-    }
+    <!-- 🌐 多語言與 GA4 數據監察腳本 -->
+    <script>
+        const dict = {
+            tc: {
+                docTitle: "懶人工具駅 | Lazy Tools Station - 免費實用 Web App 集",
+                heroTitle: "懶人工具駅",
+                heroDesc: "完全免費、免下載、免安裝的 Web App 平台 · 專為香港人而設",
+                heroCTA: "👇 點選下方圖示，即開即用！",
+                sec1Title: "香港人專櫃",
+                tagEdu: "🚀 強勢登場",
+                tagNoVPN: "✨ 免翻牆",
+                app8Title: "EduMind AI", 
+                app8Desc: "點擊了解更多！顛覆傳統嘅混合雲端 SaaS 學習平台，將學習主導權交還畀你。",
+                modalEduTitle: "EduMind AI 核心理念",
+                modalEduSub: "即將強勢推出 · 敬請期待",
+                modalEduObj: "<strong class='text-slate-800 text-base'>【釋放 AI 潛能，將學習主導權交還給您】</strong><br><br>EduMind AI 絕不僅僅是一個「掃描器」或「出題機」，而是一個真正具備「教學靈魂」的混合雲端 SaaS 學習平台。<br><br>我們將零散的 AI 算力，完美封裝成最專業的教育工具，為您提煉知識精華，並將所有學習進度與軌跡安全同步至雲端大腦。請密切留意我們的最新發佈！",
+                modalEduBtn: "了解並關閉視窗",
+                tagTransit: "交通出行", tagPrice: "精明格價", tagWellness: "情緒補給", tagCross: "跨境交通", tagFood: "飲食指南",
+                app1Title: "貼地通", app1Desc: "極速、零廣告交通 ETA 儀表板，自訂專屬路線。",
+                app2Title: "慳真D", app2Desc: "全港超市真實價格追蹤器，以客觀數據識破定價幻覺，發掘真正折扣。",
+                app3Title: "心靈補給站", app3Desc: "你的專屬情緒樹洞與金句庫，AI 輔助情緒急救。",
+                sec2Title: "大灣區北上專區",
+                app4Title: "深中珠巴士懶人包", app4Desc: "一站式整合深圳、中山、珠海跨城巴士路線及購票。",
+                app5Title: "中山美食地圖", app5Desc: "精選中山地道必食餐廳、招牌菜，北上搵食必備。",
+                app6Title: "天氣小助手", 
+                app6Desc: "即時天氣提示、極端天氣預警與地道廣東話關懷提醒。",
+                app7Title: "中山天氣小助手", 
+                app7Desc: "中山地區即時氣象提示、極端天氣預警與北上關懷提醒。",
+                footerTitle: "懶人工具駅", footerCopyright: "© 2026 懶人工具駅 Lazy Tools Station. 保留一切權利。", footerAI: "由 AI 輔助開發"
+            },
+            sc: {
+                docTitle: "懒人工具驿 | Lazy Tools Station - 免费实用 Web App 集",
+                heroTitle: "懒人工具驿",
+                heroDesc: "完全免费、免下载、免安装的 Web App 平台 · 专为香港人而设",
+                heroCTA: "👇 点选下方图标，即开即用！",
+                sec1Title: "香港人专柜",
+                tagEdu: "🚀 强势登场",
+                tagNoVPN: "✨ 免翻墙",
+                app8Title: "EduMind AI", 
+                app8Desc: "点击了解更多！颠覆传统的混合云端 SaaS 学习平台，将学习主导权交还给你。",
+                modalEduTitle: "EduMind AI 核心理念",
+                modalEduSub: "即将强势推出 · 敬请期待",
+                modalEduObj: "<strong class='text-slate-800 text-base'>【释放 AI 潜能，将学习主导权交还给您】</strong><br><br>EduMind AI 绝不仅仅是一个“扫描器”或“出题机”，而是一个真正具备“教学灵魂”的混合云端 SaaS 学习平台。<br><br>我们将零散的 AI 算力，完美封装成最专业的教育工具，为您提炼知识精华，并将所有学习进度与轨迹安全同步至云端大脑。请密切留意我们的最新发布！",
+                modalEduBtn: "了解并关闭窗口",
+                tagTransit: "交通出行", tagPrice: "精明格价", tagWellness: "情绪补给", tagCross: "跨境交通", tagFood: "饮食指南",
+                app1Title: "贴地通", app1Desc: "极速、零广告交通 ETA 仪表板，自订专属路线。",
+                app2Title: "悭真D", app2Desc: "全港超市真实价格追踪器，以客观数据识破定价幻觉，发掘真正折扣。",
+                app3Title: "心灵补给站", app3Desc: "你的专属情绪树洞与金句库，AI 辅助情绪急救。",
+                sec2Title: "大湾区北上专区",
+                app4Title: "深中珠巴士懒人包", app4Desc: "一站式整合深圳、中山、珠海跨城巴士路线及购票。",
+                app5Title: "中山美食地图", app5Desc: "精选中山地道必食餐厅、招牌菜，北上找食必备。",
+                app6Title: "天气小助手", 
+                app6Desc: "即时天气提示、极端天气预警与地道广东话关怀提醒。（注：Web App 界面为繁体中文）",
+                app7Title: "中山天气小助手", 
+                app7Desc: "中山地区即时气象提示、极端天气预警与北上关怀提醒。（注：Web App 界面为繁体中文）",
+                footerTitle: "懒人工具驿", footerCopyright: "© 2026 懒人工具驿 Lazy Tools Station. 保留一切权利。", footerAI: "由 AI 辅助开发"
+            },
+            en: {
+                docTitle: "Lazy Tools Station - Free Utility Web Apps",
+                heroTitle: "Lazy Tools Station",
+                heroDesc: "100% Free, Installation-free Web App Platform for Hong Kongers",
+                heroCTA: "👇 Click an app below to start instantly!",
+                sec1Title: "Local Apps",
+                tagEdu: "🚀 Grand Launch",
+                tagNoVPN: "✨ No VPN",
+                app8Title: "EduMind AI", 
+                app8Desc: "Click to learn more! A revolutionary Hybrid Cloud SaaS learning platform returning learning autonomy to you.",
+                modalEduTitle: "EduMind AI Core Vision",
+                modalEduSub: "Launching Soon · Stay Tuned",
+                modalEduObj: "<strong class='text-slate-800 text-base'>【Unleash AI Potential, Return Learning Autonomy to You】</strong><br><br>EduMind AI is by no means just a \"scanner\" or \"quiz generator,\" but a Hybrid Cloud SaaS learning platform with a true \"teaching soul.\"<br><br>We have perfectly encapsulated scattered AI computing power into the most professional educational tool, extracting the essence of knowledge for you and securely synchronizing all your learning progress to the cloud brain. Stay tuned for our official launch!",
+                modalEduBtn: "Got it & Close",
+                tagTransit: "Transit", tagPrice: "Price Track", tagWellness: "Wellness", tagCross: "Cross-border", tagFood: "Food & Dining",
+                app1Title: "Transit Hub", app1Desc: "Lightning-fast, ad-free transit ETA dashboard. Customize your own routes.",
+                app2Title: "SmartDeal", app2Desc: "Supermarket price tracker. Analyze data to reveal true discounts and avoid price illusions.",
+                app3Title: "Soul Station", app3Desc: "Your personal emotional safe space and quote library with AI first aid.",
+                sec2Title: "GBA Guides",
+                app4Title: "SZ-ZS-ZH Bus Guide", app4Desc: "One-stop guide for cross-city buses and ticketing in Shenzhen, Zhongshan, and Zhuhai.",
+                app5Title: "Zhongshan Food Map", app5Desc: "Handpicked local restaurants and signature dishes. Essential for foodies.",
+                app6Title: "HK Weather App", 
+                app6Desc: "Real-time weather forecast & extreme alerts. (Content in Traditional Chinese)",
+                app7Title: "ZS Weather App", 
+                app7Desc: "Real-time Zhongshan weather forecast & extreme alerts. (Content in Traditional Chinese)",          
+                footerTitle: "Lazy Tools Station", footerCopyright: "© 2026 Lazy Tools Station. All Rights Reserved.", footerAI: "Proudly co-created with AI"
+            }
+        };
 
-    // PWA Modal 控制函式
-    function openPwaModal() {
-      document.getElementById('pwa-modal').classList.remove('hidden');
-    }
+        function changeLang(lang) {
+            localStorage.setItem('lts_lang', lang);
+            document.title = dict[lang].docTitle;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[lang][key]) {
+                    el.innerHTML = dict[lang][key];
+                }
+            });
+            document.getElementById('langSelector').value = lang;
 
-    function closePwaModal() {
-      document.getElementById('pwa-modal').classList.add('hidden');
-    }
+            // 🌟 追蹤：語言切換事件
+            if (typeof gtag === 'function') {
+                gtag('event', 'change_language', {
+                    'event_category': 'User Preference',
+                    'event_label': lang
+                });
+            }
+        }
 
-    // 關於我們 Modal 控制函式
-    function openModal() {
-      document.getElementById('info-modal').classList.remove('hidden');
-    }
+        // --- EduMind AI Modal 控制腳本 ---
+        function openEduMindModal(e) {
+            e.preventDefault(); 
+            if (typeof gtag === 'function') {
+                gtag('event', 'click_app', {
+                    'event_category': 'App Engagement',
+                    'event_label': 'EduMind AI'
+                });
+            }
+            const modal = document.getElementById('edumindModal');
+            modal.classList.remove('hidden-spa');
+            modal.classList.add('modal-enter');
+        }
 
-    function closeModal() {
-      document.getElementById('info-modal').classList.add('hidden');
-    }
+        function closeEduMindModal() {
+            // 🌟 追蹤：關閉視窗事件
+            if (typeof gtag === 'function') {
+                gtag('event', 'close_modal', {
+                    'event_category': 'App Engagement',
+                    'event_label': 'EduMind AI'
+                });
+            }
+            const modal = document.getElementById('edumindModal');
+            modal.classList.remove('modal-enter');
+            setTimeout(() => {
+                modal.classList.remove('hidden-spa');
+            }, 300);
+        }
 
-    // 點擊 Modal 背景自動關閉
-    document.getElementById('pwa-modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closePwaModal();
-      }
-    });
+        // --- 外部 App 點擊追蹤腳本 ---
+        function trackAppClick(appName, url, e) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'click_app', {
+                    'event_category': 'App Engagement',
+                    'event_label': appName,
+                    'transport_type': 'beacon'
+                });
+            }
+        }
 
-    document.getElementById('info-modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
+        // --- 頁尾 Social 連結點擊追蹤腳本 ---
+        function trackSocialClick(platform) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'click_social', {
+                    'event_category': 'Social Engagement',
+                    'event_label': platform,
+                    'transport_type': 'beacon'
+                });
+            }
+        }
 
-    // PWA Service Worker Inline Blob 註冊
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        const swCode = `
-          self.addEventListener('install', (e) => self.skipWaiting());
-          self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-          self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
-        `;
-        const blob = new Blob([swCode], { type: 'text/javascript' });
-        const blobUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(blobUrl).catch(() => {});
-      });
-    }
+        // --- 網頁滾動深度監察 (50% & 90%) ---
+        let trackedScrollDepths = { 50: false, 90: false };
+        window.addEventListener('scroll', () => {
+            const scrollPercent = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+            [50, 90].forEach(depth => {
+                if (scrollPercent >= depth && !trackedScrollDepths[depth]) {
+                    trackedScrollDepths[depth] = true;
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'scroll_depth', {
+                            'event_category': 'User Engagement',
+                            'event_label': depth + '%'
+                        });
+                    }
+                }
+            });
+        });
 
-    // 初始化讀取香港天氣
-    fetchWeather('hk');
-  </script>
+        // 頁面載入時自動讀取用戶偏好語言
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('lts_lang') || 'tc';
+            changeLang(savedLang);
+        });
+    </script>
 </body>
 </html>
