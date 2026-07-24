@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌤️ 天氣小助手</title>
+  <title>天氣小助手</title>
 
   <!-- PWA Meta 標籤 -->
   <meta name="theme-color" content="#38bdf8">
@@ -11,20 +11,26 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="天氣小助手">
-  
-  <!-- Inline Manifest -->
-  <!-- 1. PWA Manifest (已更新為 PNG 圖示連結) -->
-  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22short_name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23e0f2fe%22%2C%22theme_color%22%3A%22%2338bdf8%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-192.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-512.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
-  <!-- 2. Chrome / Android / 通用瀏覽器網頁 Icon -->
+  <!-- 🌐 1. Windows / 電腦版瀏覽器 Tab 頁籤 Favicon 圖示 -->
+  <link rel="shortcut icon" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
+
+  <!-- 📱 2. Mobile Chrome / Android / 通用瀏覽器 Icon -->
   <link rel="icon" type="image/png" sizes="192x192" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
 
-  <!-- 3. iOS Apple Touch Icon -->
+  <!-- 🍏 3. iOS Apple Touch Icon (加至主畫面圖示) -->
   <link rel="apple-touch-icon" sizes="180x180" href="https://msbecky5354.github.io/JSON/img/icon-512.png">
+
+  <!-- 📦 4. PWA Inline Manifest -->
+  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22short_name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23e0f2fe%22%2C%22theme_color%22%3A%22%2338bdf8%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-192.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-512.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome 圖標庫 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600;700;900&display=swap');
     
@@ -65,8 +71,13 @@
 
   <div class="w-full max-w-md mx-auto space-y-6 my-4">
 
-    <!-- 標頭 -->
-    <header class="text-center space-y-2">
+    <!-- 標頭區塊 (右上角加入 PWA 安裝按鈕) -->
+    <header class="relative text-center space-y-2 pt-2">
+      <!-- 📲 右上角：加至主畫面按鈕 -->
+      <button onclick="openPwaModal()" class="absolute top-0 right-0 bg-white/90 hover:bg-white text-sky-700 border border-sky-200 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95">
+        <span>📲</span> 加至主畫面
+      </button>
+
       <div class="inline-flex items-center gap-2 bg-white/80 px-4 py-1.5 rounded-full shadow-sm text-sm font-bold text-amber-700 border border-amber-200">
         <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full pulse-dot"></span>
         雲端即時同步中
@@ -132,6 +143,62 @@
 
   </div>
 
+  <!-- 📲 PWA 加至主畫面教學 Modal -->
+  <div id="pwa-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-5 relative shadow-2xl border border-white">
+      
+      <!-- 關閉按鈕 -->
+      <button onclick="closePwaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">
+        ✕
+      </button>
+
+      <!-- 標題 -->
+      <div class="text-center border-b border-slate-100 pb-3">
+        <h2 class="text-2xl font-black text-slate-800 flex items-center justify-center gap-2">
+          <span>📲</span> 安裝「天氣小助手」App
+        </h2>
+        <p class="text-xs text-slate-500 mt-1">無需經 App Store / Google Play，一鍵加至手機桌面！</p>
+      </div>
+
+      <!-- 內容區 -->
+      <div class="space-y-4 text-slate-700 text-sm leading-relaxed">
+        
+        <!-- iOS Safari 教學 -->
+        <div class="bg-sky-50/80 p-4 rounded-2xl border border-sky-100 space-y-2">
+          <div class="font-extrabold text-sky-800 flex items-center gap-2 text-base">
+            <span>🍏</span> iPhone / iPad (Safari 瀏覽器)
+          </div>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
+            <li>點擊 Safari 瀏覽器底部的 <b>「分享」按鈕 ⎋</b></li>
+            <li>向上滑動選單，點擊 <b>「加至主畫面 ➕」</b></li>
+            <li>點擊右上角 <b>「加入」</b> 即完成安裝！</li>
+          </ol>
+        </div>
+
+        <!-- Android Chrome 教學 -->
+        <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-100 space-y-2">
+          <div class="font-extrabold text-emerald-800 flex items-center gap-2 text-base">
+            <span>🤖</span> Android (Chrome 瀏覽器)
+          </div>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
+            <li>點擊 Chrome 右上角的 <b>選單按鈕 (三點 ⋮)</b></li>
+            <li>點擊 <b>「新增至主畫面」</b> 或 <b>「安裝應用程式」</b></li>
+            <li>點擊 <b>「新增 / 安裝」</b> 即完成！</li>
+          </ol>
+        </div>
+
+      </div>
+
+      <!-- 底部關閉按鈕 -->
+      <div class="pt-2 text-center">
+        <button onclick="closePwaModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all text-sm">
+          我明白咗
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- 關於我們 & 條款 彈出視窗 (Modal) -->
   <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl border border-white">
@@ -189,7 +256,7 @@
   <script>
     let currentCity = 'hk';
     
-    // 獨立數據接口 (對接常規預報與前線突發哨兵 JSON 檔案)
+    // 獨立數據接口
     const endpoints = {
       hk_routine: 'https://msbecky5354.github.io/JSON/data/hk_weather.json',
       zs_routine: 'https://msbecky5354.github.io/JSON/data/zs_weather.json',
@@ -284,7 +351,7 @@
         `;
       }
 
-    // 2. 🚨 渲染 Box 2：【前線突發哨兵】極端預警卡片 (在下)
+      // 2. 🚨 渲染 Box 2：【前線突發哨兵】極端預警卡片 (在下)
       if (specialMsg && typeof specialMsg === 'string' && specialMsg.trim() !== '' && !specialMsg.includes('警報解除')) {
         let cleanSpecial = specialMsg
           .replace(/\\n/g, '<br>')
@@ -356,7 +423,16 @@
       }
     }
 
-    // Modal 控制函式
+    // PWA Modal 控制函式
+    function openPwaModal() {
+      document.getElementById('pwa-modal').classList.remove('hidden');
+    }
+
+    function closePwaModal() {
+      document.getElementById('pwa-modal').classList.add('hidden');
+    }
+
+    // 關於我們 Modal 控制函式
     function openModal() {
       document.getElementById('info-modal').classList.remove('hidden');
     }
@@ -366,6 +442,12 @@
     }
 
     // 點擊 Modal 背景自動關閉
+    document.getElementById('pwa-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePwaModal();
+      }
+    });
+
     document.getElementById('info-modal').addEventListener('click', function(e) {
       if (e.target === this) {
         closeModal();
