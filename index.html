@@ -13,7 +13,13 @@
   <meta name="apple-mobile-web-app-title" content="天氣小助手">
   
   <!-- Inline Manifest -->
-  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22short_name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23e0f2fe%22%2C%22theme_color%22%3A%22%2338bdf8%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22img%2FICON.svg%22%2C%22sizes%22%3A%22512x512%20192x192%20any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D'>
+  <!-- 1. PWA Manifest (已更新為 PNG 圖示連結) -->
+  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22short_name%22%3A%22%E5%A4%A9%E6%B0%A3%E5%B0%8F%E5%8A%A9%E6%89%8B%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23e0f2fe%22%2C%22theme_color%22%3A%22%2338bdf8%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-192.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fmsbecky5354.github.io%2FJSON%2Fimg%2Ficon-512.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+
+  <!-- 2. Chrome / Android / 通用瀏覽器網頁 Icon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="https://msbecky5354.github.io/JSON/img/icon-192.png">
+
+  <!-- 3. iOS Apple Touch Icon -->
   <link rel="apple-touch-icon" sizes="180x180" href="https://msbecky5354.github.io/JSON/img/icon-512.png">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
