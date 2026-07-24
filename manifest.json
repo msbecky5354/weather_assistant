@@ -7,7 +7,7 @@
   "theme_color": "#38bdf8",
   "icons": [
     {
-      "src": "icon.svg",
+      "src": "https://msbecky5354.github.io/JSON/img/ICON.svg",
       "sizes": "512x512 192x192 any",
       "type": "image/svg+xml"
     }
