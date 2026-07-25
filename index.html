@@ -506,10 +506,15 @@
         // 💡 兩地標題統一精簡為「⏰ 發布時間：」，並把整個時間（含秒數）用 inline-block 綁定防止折斷掉行
         if (specialDataObj && (specialDataObj.updated_at || specialDataObj.time)) {
           const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time, true);
-          cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時間：?\s*([0-9:\sA-Za-z\-\/年月日時分秒]+)/g, (m, p1, p2) => {
+          // 1. 將頂頭標題置中
+cleanSpecial = cleanSpecial.replace(/(🚨\s*突發極端天氣警報)/g, '<div class="text-center font-bold mb-1">$1</div>');
+
+// 2. 將發佈時間置中（無冒號、分行、自動正字、清除多餘空行）
+cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時間：?\s*([0-9:\sA-Za-z\-\/年月日時分秒]+)\s*/g, (m, p1, p2) => {
   const verb = p1 === '天文台' ? '發佈' : '發布';
-  return `<div class="text-center font-semibold mb-2">⏰ ${p1}${verb}時間<br>${p2}</div>`;
+  return `<div class="text-center font-semibold mb-3">⏰ ${p1}${verb}時間<br>${p2}</div>`;
 });
+
 
 
 
