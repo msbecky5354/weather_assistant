@@ -506,7 +506,7 @@
         // 💡 兩地標題統一精簡為「⏰ 發布時間：」，並把整個時間（含秒數）用 inline-block 綁定防止折斷掉行
         if (specialDataObj && (specialDataObj.updated_at || specialDataObj.time)) {
           const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time, true);
-          cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台發[布佈]時間：|氣象局發[布佈]時間：|發[布佈]時間：)[0-9:\sA-Za-z\-\/年月日時分秒]+/g, `⏰ 發布時間：<span class="inline-block">${formattedSpecialTime}</span>`);
+          cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台發[布佈]時間：|氣象局發[布佈]時間：|發[布佈]時間：)[0-9:\sA-Za-z\-\/年月日時分秒]+/g, `⏰ 發佈時間：<span class="inline-block">${formattedSpecialTime}</span>`);
 
         }
 
