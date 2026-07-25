@@ -362,13 +362,11 @@
     };
 
     // 🇭🇰 強制鎖定香港時區 (Asia/Hong_Kong) 的日期時間格式化 Helper
-    // ✅ 100% 保留秒數，顯示「M月D日 HH:MM:SS」（例如：7月25日 08:43:41）
     function formatHKTime(timeInput, forceDate = false) {
       if (!timeInput) return '';
 
       let d = new Date(timeInput);
       
-      // 若只有單純 HH:mm:ss 時間字串，嘗試以今日日期補全解析
       if (isNaN(d.getTime())) {
         if (typeof timeInput === 'string' && timeInput.match(/^\d{1,2}:\d{2}(:\d{2})?$/)) {
           const todayISO = new Date().toISOString().split('T')[0];
@@ -379,17 +377,16 @@
 
       try {
         const dateOptions = { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit' };
-        const hkDateFormatter = new Intl.DateTimeFormat('en-CA', dateOptions); // YYYY-MM-DD
+        const hkDateFormatter = new Intl.DateTimeFormat('en-CA', dateOptions);
         
         const targetHKDate = hkDateFormatter.format(d);
         const currentHKDate = hkDateFormatter.format(new Date());
 
-        // 保留 second: '2-digit'
         const timeOptions = { timeZone: 'Asia/Hong_Kong', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         const timeStr = new Intl.DateTimeFormat('zh-HK', timeOptions).format(d);
 
         const mdOptions = { timeZone: 'Asia/Hong_Kong', month: 'numeric', day: 'numeric' };
-        const mdStr = new Intl.DateTimeFormat('zh-HK', mdOptions).format(d); // e.g. "7月25日"
+        const mdStr = new Intl.DateTimeFormat('zh-HK', mdOptions).format(d);
 
         if (forceDate || targetHKDate !== currentHKDate) {
           return `${mdStr} ${timeStr}`;
@@ -503,22 +500,11 @@
           .replace(/\*/g, '')
           .trim();
 
-        // 💡 兩地標題統一精簡為「⏰ 發布時間：」，並把整個時間（含秒數）用 inline-block 綁定防止折斷掉行
-        if (specialDataObj && (specialDataObj.updated_at || specialDataObj.time)) {
-          const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time, true);
-          // 1. 將頂頭標題置中
-cleanSpecial = cleanSpecial.replace(/(🚨\s*突發極端天氣警報)/g, '<div class="text-center font-bold mb-1">$1</div>');
-
-// 2. 將發佈時間置中（無冒號、分行、自動正字、清除多餘空行）
-cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時間：?\s*([0-9:\sA-Za-z\-\/年月日時分秒]+)\s*/g, (m, p1, p2) => {
-  const verb = p1 === '天文台' ? '發佈' : '發布';
-  return `<div class="text-center font-semibold mb-3">⏰ ${p1}${verb}時間<br>${p2}</div>`;
-});
-
-
-
-
-        }
+        // 💡 修正發佈時間：無冒號、分兩行置中、自動正字，並徹底清除後面滯留的 <br> 避免巨型空白
+        cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時間：?\s*([0-9:\sA-Za-z\-\/年月日時分秒]+)(<br>|\s)*/g, (m, p1, p2) => {
+          const verb = p1 === '天文台' ? '發佈' : '發布';
+          return `<div class="text-center font-semibold mb-2">⏰ ${p1}${verb}時間<br>${p2}</div>`;
+        });
 
         let boxBgColor = '#dc2626'; // 預設紅色
         let textColor = '#ffffff';  // 預設白字
@@ -560,7 +546,7 @@ cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時�
 
         htmlBuilder += `
           <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 rounded-2xl shadow-lg border-2 border-slate-200/50 alert-pulse space-y-2 mt-4 transition-colors duration-500">
-            <div class="flex items-center gap-2 font-black text-xl ${headerColor}">
+            <div class="flex items-center justify-center gap-2 font-black text-xl ${headerColor} text-center">
               <span class="text-2xl">🚨</span> 突發極端天氣警報
             </div>
             <div class="text-lg md:text-xl font-bold leading-relaxed">
@@ -573,7 +559,6 @@ cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台|氣象局)發[布佈]時�
       // 渲染終極結果
       if (htmlBuilder !== '') {
         contentEl.innerHTML = htmlBuilder;
-        // 💡 頂部「最後更新」：帶有「月-日 時間」（例如：7月25日 07:48:09）
         const showTime = dataTimestamp ? formatHKTime(dataTimestamp, true) : formatHKTime(new Date(), true);
         timeEl.innerText = '最後更新：' + showTime;
       } else {
