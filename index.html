@@ -549,9 +549,10 @@
             let alertBody = remain.replace(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/g, (m, emoji, text) => {
                 let parts = text.split('、'); 
                 let capsules = parts.map(p => {
-                    let cleanText = p.trim().replace(/[！!]+$/, '');
-                    return `<span class="inline-flex items-center gap-1.5 bg-white/25 px-2.5 sm:px-3 py-1.5 rounded-xl shadow-sm border border-white/30 font-black text-[13px] sm:text-base md:text-xl ${highlightColor} drop-shadow-md whitespace-nowrap shrink-0 max-w-full">${emoji} ${cleanText}</span>`;
-                });
+    let cleanText = p.trim().replace(/[！!]+$/, '');
+    /* ⬆️ 將 text-[13px] 提升至 text-[15.5px] (或者寫 text-base)，並微調 px-3 py-2 令比例更完美 */
+    return `<span class="inline-flex items-center gap-1.5 bg-white/25 px-3 sm:px-4 py-2 rounded-xl shadow-sm border border-white/30 font-black text-[15.5px] sm:text-lg md:text-xl ${highlightColor} drop-shadow-md whitespace-nowrap shrink-0 max-w-full">${emoji} ${cleanText}</span>`;
+});
                 return `<div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-3 mb-1 w-full box-border">${capsules.join('')}</div>`;
             });
             alertBody = alertBody.replace(/\n+/g, '<br>').replace(/^<br>|<br>$/g, '');
@@ -564,8 +565,8 @@
                 <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${alertTitle}
                 </div>
-                <!-- 🛡️ 深色內框 Padding 稍微放寬，讓 12 字膠囊呼吸空間更充裕 -->
-                <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed bg-black/10 px-3.5 sm:px-5 py-4 rounded-2xl backdrop-blur-sm w-full border border-black/5 shadow-inner flex flex-col items-center justify-center box-border">
+                /* ⬆️ 將深色內框嘅 px-3.5 降到極限 px-2，釋放全部橫向空間 */
+<div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed bg-black/10 px-2 sm:px-5 py-4 rounded-2xl backdrop-blur-sm w-full border border-black/5 shadow-inner flex flex-col items-center justify-center box-border">
                   ${alertBody}
                 </div>
                 ${alertFooter}
