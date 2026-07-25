@@ -362,7 +362,7 @@
     };
 
     // 🇭🇰 強制鎖定香港時區 (Asia/Hong_Kong) 的日期時間格式化 Helper
-    // 去除秒數，顯示「M月D日 HH:MM」（例如：7月25日 07:48）
+    // ✅ 100% 保留秒數，顯示「M月D日 HH:MM:SS」（例如：7月25日 08:43:41）
     function formatHKTime(timeInput, forceDate = false) {
       if (!timeInput) return '';
 
@@ -384,8 +384,8 @@
         const targetHKDate = hkDateFormatter.format(d);
         const currentHKDate = hkDateFormatter.format(new Date());
 
-        // 🎯 拿走 second: '2-digit'，只留小時與分鐘
-        const timeOptions = { timeZone: 'Asia/Hong_Kong', hour: '2-digit', minute: '2-digit', hour12: false };
+        // 保留 second: '2-digit'
+        const timeOptions = { timeZone: 'Asia/Hong_Kong', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         const timeStr = new Intl.DateTimeFormat('zh-HK', timeOptions).format(d);
 
         const mdOptions = { timeZone: 'Asia/Hong_Kong', month: 'numeric', day: 'numeric' };
@@ -503,7 +503,7 @@
           .replace(/\*/g, '')
           .trim();
 
-        // 💡 若 JSON 含有發佈時間，精簡前綴，並將日期與時間用 inline-block 綁定防止折斷
+        // 💡 兩地標題統一精簡為「⏰ 發布時間：」，並把整個時間（含秒數）用 inline-block 綁定防止折斷掉行
         if (specialDataObj && (specialDataObj.updated_at || specialDataObj.time)) {
           const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time, true);
           cleanSpecial = cleanSpecial.replace(/⏰?\s*(天文台發佈時間：|氣象局發佈時間：|發佈時間：)[0-9:\sA-Za-z\-\/年月日時分秒]+/g, `⏰ 發布時間：<span class="inline-block">${formattedSpecialTime}</span>`);
@@ -562,7 +562,7 @@
       // 渲染終極結果
       if (htmlBuilder !== '') {
         contentEl.innerHTML = htmlBuilder;
-        // 💡 頂部「最後更新」：永遠強制帶有「月-日 時間」（例如：7月25日 07:48）
+        // 💡 頂部「最後更新」：帶有「月-日 時間」（例如：7月25日 07:48:09）
         const showTime = dataTimestamp ? formatHKTime(dataTimestamp, true) : formatHKTime(new Date(), true);
         timeEl.innerText = '最後更新：' + showTime;
       } else {
