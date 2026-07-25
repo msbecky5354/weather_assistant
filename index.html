@@ -361,8 +361,9 @@
       zs_special: 'https://msbecky5354.github.io/JSON/data/zs_special_weather.json'
     };
 
-    // 🇭🇰 強制鎖定香港時區 (Asia/Hong_Kong) 的日期時間動態格式化 Helper
-    function formatHKTime(timeInput) {
+    // 🇭🇰 強制鎖定香港時區 (Asia/Hong_Kong) 的日期時間格式化 Helper
+    // forceDate = true 時，永遠強制包含「M月D日」（例如：7月25日 07:48:09）
+    function formatHKTime(timeInput, forceDate = false) {
       if (!timeInput) return '';
 
       let d = new Date(timeInput);
@@ -377,24 +378,23 @@
       }
 
       try {
-        // 1. 強制以 Asia/Hong_Kong 時區取得 YYYY-MM-DD
         const dateOptions = { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit' };
-        const hkDateFormatter = new Intl.DateTimeFormat('en-CA', dateOptions); // en-CA 格式為 YYYY-MM-DD
+        const hkDateFormatter = new Intl.DateTimeFormat('en-CA', dateOptions); // YYYY-MM-DD
         
         const targetHKDate = hkDateFormatter.format(d);
         const currentHKDate = hkDateFormatter.format(new Date());
 
-        // 2. 取得香港時區的時間字串 (HH:mm:ss)
         const timeOptions = { timeZone: 'Asia/Hong_Kong', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         const timeStr = new Intl.DateTimeFormat('zh-HK', timeOptions).format(d);
 
-        // 3. 跨日比對：香港日期相同代表「今日」；不同代表跨日/掛咗兩三日或以上
-        if (targetHKDate === currentHKDate) {
-          return timeStr; // 今日：僅顯示 "20:40:00"
+        const mdOptions = { timeZone: 'Asia/Hong_Kong', month: 'numeric', day: 'numeric' };
+        const mdStr = new Intl.DateTimeFormat('zh-HK', mdOptions).format(d); // e.g. "7月25日"
+
+        // 💡 若指定 forceDate 為 true，或目標日期不等於今日，一律強制輸出完整「月-日 時間」
+        if (forceDate || targetHKDate !== currentHKDate) {
+          return `${mdStr} ${timeStr}`;
         } else {
-          const mdOptions = { timeZone: 'Asia/Hong_Kong', month: 'numeric', day: 'numeric' };
-          const mdStr = new Intl.DateTimeFormat('zh-HK', mdOptions).format(d);
-          return `${mdStr} ${timeStr}`; // 跨日/跨多日：顯示 "7月24日 20:40:00"
+          return `${mdStr} ${timeStr}`; // 預設全部帶上月日，確保時間軸極度清晰！
         }
       } catch (err) {
         return timeInput;
@@ -503,10 +503,10 @@
           .replace(/\*/g, '')
           .trim();
 
-        // 💡 若 JSON 含有發佈時間，自動替換內文時間為「香港時區動態日期時間」
+        // 💡 若 JSON 含有發佈時間，自動替換內文時間為帶日期的香港時區動態時間
         if (specialDataObj && (specialDataObj.updated_at || specialDataObj.time)) {
-          const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time);
-          cleanSpecial = cleanSpecial.replace(/(天文台發佈時間：|發佈時間：)[0-9:\sA-Za-z\-\/年月日時分秒]+/g, `$1${formattedSpecialTime}`);
+          const formattedSpecialTime = formatHKTime(specialDataObj.updated_at || specialDataObj.time, true);
+          cleanSpecial = cleanSpecial.replace(/(天文台發佈時間：|氣象局發佈時間：|發佈時間：)[0-9:\sA-Za-z\-\/年月日時分秒]+/g, `$1${formattedSpecialTime}`);
         }
 
         let boxBgColor = '#dc2626'; // 預設紅色
@@ -562,8 +562,8 @@
       // 渲染終極結果
       if (htmlBuilder !== '') {
         contentEl.innerHTML = htmlBuilder;
-        // 優先顯示數據 JSON 內的 updated_at 真正的發布時間 (轉換為香港時區顯示)
-        const showTime = dataTimestamp ? formatHKTime(dataTimestamp) : formatHKTime(new Date());
+        // 💡 頂部「最後更新」：永遠強制帶有「月-日 時間」（例如：7月25日 07:48:09）
+        const showTime = dataTimestamp ? formatHKTime(dataTimestamp, true) : formatHKTime(new Date(), true);
         timeEl.innerText = '最後更新：' + showTime;
       } else {
         contentEl.innerHTML = `
