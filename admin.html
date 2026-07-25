@@ -187,7 +187,7 @@
                     let headerColor = 'text-yellow-300'; 
                     let isAlertPulse = 'alert-pulse'; 
 
-                    // 🎨 判定底色 (移植自 index.html)
+                    // 🎨 判定底色
                     if (msg.includes('警報解除')) {
                         boxBgColor = '#10b981'; textColor = '#ffffff'; headerColor = 'text-white'; isAlertPulse = ''; 
                     } else if (isHk) {
@@ -266,7 +266,7 @@
                             </div>`;
                     }
                     else {
-                        // 🔴 常規膠囊 Layout (深色內框 + 立體膠囊)
+                        // 🔴 條件四：常規膠囊 Layout (終極霸氣極限版)
                         let titleMatch = rawMsg.match(/([🚨\s]*【.*?】)/);
                         let alertTitle = titleMatch ? titleMatch[1].trim() : '🚨 突發極端天氣警報';
                         let remain = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
@@ -274,33 +274,39 @@
                         let alertFooter = '';
                         let footerMatch = remain.match(/[\n！!]*\s*(請注意.*)$/is);
                         if (footerMatch) {
-                            alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${footerMatch[1].replace(/^[！!\s]+|[！!\s]+$/g, '')}</div>`;
+                            alertFooter = `<div class="mt-4 text-sm sm:text-base md:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${footerMatch[1].replace(/^[！!\s]+|[！!\s]+$/g, '')}</div>`;
                             remain = remain.replace(footerMatch[0], '').trim();
                         }
 
                         let highlightColor = textColor === '#ffffff' ? 'text-white' : 'text-slate-900';
                         
+                        // Regex 膠囊切割：字體回升 (text-[15.5px])，無 hidden，確保 12 字單行霸氣顯示
                         let alertBody = remain.replace(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/g, (m, emoji, text) => {
                             let parts = text.split('、'); 
                             let capsules = parts.map(p => {
                                 let cleanText = p.trim().replace(/[！!]+$/, '');
-                                return `<span class="inline-flex items-center gap-1.5 bg-white/25 px-3 py-1.5 rounded-xl shadow-sm border border-white/30 font-black text-lg md:text-xl ${highlightColor} drop-shadow-md whitespace-nowrap shrink-0 max-w-full overflow-hidden text-ellipsis">${emoji} ${cleanText}</span>`;
+                                // ⬆️ 將 text-[13px] 提升至 text-[15.5px] (或者寫 text-base)，並微調 px-3 py-2 令比例更完美
+                                return `<span class="inline-flex items-center gap-1.5 bg-white/25 px-3 sm:px-4 py-2 rounded-xl shadow-sm border border-white/30 font-black text-[15.5px] sm:text-lg md:text-xl ${highlightColor} drop-shadow-md whitespace-nowrap shrink-0 max-w-full">${emoji} ${cleanText}</span>`;
                             });
-                            return `<div class="flex flex-wrap justify-center gap-2 mt-3 mb-1 w-full box-border">${capsules.join('')}</div>`;
+                            return `<div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-3 mb-1 w-full box-border">${capsules.join('')}</div>`;
                         });
                         alertBody = alertBody.replace(/\n+/g, '<br>').replace(/^<br>|<br>$/g, '');
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 sm:p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-5 transition-colors duration-500 relative overflow-hidden w-full box-border">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
                                 ${timeInfo}
-                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">${alertTitle}</div>
-                                <!-- ⭐️ 核心：深色半透明大方框 -->
-                                <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed bg-black/10 px-5 py-4 rounded-2xl backdrop-blur-sm w-full border border-black/5 shadow-inner flex flex-col items-center justify-center box-border">
-                                    ${alertBody}
+                                <!-- 🛡️ 鎖死單行，霸氣不換行 -->
+                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
+                                  ${alertTitle}
+                                </div>
+                                <!-- 🛡️ 榨乾橫向空間，內框 Padding 極限 px-2 -->
+                                <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed bg-black/10 px-2 sm:px-5 py-4 rounded-2xl backdrop-blur-sm w-full border border-black/5 shadow-inner flex flex-col items-center justify-center box-border">
+                                  ${alertBody}
                                 </div>
                                 ${alertFooter}
-                            </div>`;
+                            </div>
+                        `;
                     }
                 }
 
