@@ -92,6 +92,10 @@
       min-height: 100vh;
     }
 
+    .font-noto-hk {
+      font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
     .glass-card {
       background: rgba(255, 255, 255, 0.90);
       backdrop-filter: blur(16px);
@@ -110,12 +114,12 @@
     }
   </style>
 </head>
-<body class="flex flex-col items-center justify-start p-3 md:p-8 text-slate-800">
+<body class="flex flex-col items-center justify-start p-3 md:p-8 text-slate-800 font-noto-hk">
 
   <div class="w-full max-w-md mx-auto space-y-4 my-2 md:my-4">
 
     <!-- 標頭區塊 -->
-    <header class="flex items-center justify-between w-full pt-2 pb-1">
+    <header class="flex items-center justify-between w-full pt-2 pb-1 font-noto-hk">
       <div class="flex items-center gap-1.5">
         <span class="text-2xl md:text-3xl drop-shadow-sm">🌤️</span>
         <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-indigo-600 tracking-tight">
@@ -128,17 +132,17 @@
       </div>
       
       <div class="flex items-center gap-2">
-        <button onclick="openShareModal()" class="bg-white/90 text-indigo-600 border border-indigo-100 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1 transition-all active:scale-95">
+        <button onclick="openShareModal()" class="bg-white/90 text-indigo-600 border border-indigo-100 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1 transition-all active:scale-95 font-noto-hk">
           <i class="fa-solid fa-share-nodes"></i> 分享
         </button>
-        <button onclick="openPwaModal()" class="bg-sky-50 text-sky-700 border border-sky-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1 transition-all active:scale-95">
+        <button onclick="openPwaModal()" class="bg-sky-50 text-sky-700 border border-sky-200 px-2.5 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1 transition-all active:scale-95 font-noto-hk">
           <i class="fa-solid fa-mobile-screen"></i> 桌面
         </button>
       </div>
     </header>
 
     <!-- 分頁 Tabs -->
-    <div class="flex rounded-2xl bg-slate-200/80 p-1.5 gap-1.5 shadow-inner">
+    <div class="flex rounded-2xl bg-slate-200/80 p-1.5 gap-1.5 shadow-inner font-noto-hk">
       <button id="tab-hk" onclick="switchCity('hk')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md">
         <span>🇭🇰</span> 香港
       </button>
@@ -148,7 +152,7 @@
     </div>
 
     <!-- 主內容卡片 -->
-    <main class="glass-card rounded-3xl p-5 md:p-8 space-y-5 relative overflow-hidden">
+    <main class="glass-card rounded-3xl p-5 md:p-8 space-y-5 relative overflow-hidden font-noto-hk">
       <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-sky-400 via-amber-400 to-rose-400"></div>
 
       <div class="flex items-center justify-between text-xs md:text-sm text-slate-500 border-b border-slate-100 pb-3">
@@ -175,7 +179,7 @@
       </div>
     </main>
 
-    <footer class="text-center space-y-1.5 pt-2">
+    <footer class="text-center space-y-1.5 pt-2 font-noto-hk">
       <div>
         <button onclick="openModal()" class="text-indigo-600 hover:text-indigo-800 font-medium text-xs underline underline-offset-2">
           關於我們、條款及免責聲明
@@ -187,7 +191,7 @@
     </footer>
   </div>
 
-  <div id="share-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div id="share-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden font-noto-hk">
     <div class="glass-card bg-white/95 rounded-3xl max-w-sm w-full p-6 space-y-5 relative shadow-2xl border border-white text-center">
       <button onclick="closeShareModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
       <div class="border-b border-slate-100 pb-3">
@@ -207,7 +211,7 @@
     </div>
   </div>
 
-  <div id="pwa-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div id="pwa-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden font-noto-hk">
     <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-5 relative shadow-2xl border border-white">
       <button onclick="closePwaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
       <div class="text-center border-b border-slate-100 pb-3">
@@ -219,7 +223,7 @@
     </div>
   </div>
 
-  <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden font-noto-hk">
     <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl border border-white">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
       <div class="text-center border-b border-slate-100 pb-3">
@@ -271,15 +275,15 @@
       const badge = document.getElementById('city-badge');
 
       if (city === 'hk') {
-        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md';
-        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md font-noto-hk';
+        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900 font-noto-hk';
         badge.innerText = '🇭🇰 香港地區';
-        badge.className = 'bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-md';
+        badge.className = 'bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-md font-noto-hk';
       } else {
-        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-emerald-700 shadow-md';
-        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+        btnZs.className = 'flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-emerald-700 shadow-md font-noto-hk';
+        btnHk.className = 'flex-1 py-3 px-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900 font-noto-hk';
         badge.innerText = '🇨🇳 中山地區';
-        badge.className = 'bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md';
+        badge.className = 'bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md font-noto-hk';
       }
       fetchWeather(city);
     }
@@ -289,7 +293,7 @@
       const timeEl = document.getElementById('update-time');
       
       contentEl.innerHTML = `
-        <div class="text-center py-8 text-slate-400 space-y-3">
+        <div class="text-center py-8 text-slate-400 space-y-3 font-noto-hk">
           <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
           <p class="text-base font-medium">更新緊 ${city === 'hk' ? '香港' : '中山'} 最新氣候數據...</p>
         </div>
@@ -334,7 +338,7 @@
         let formattedRoutine = routineMsg.replace(/\\n/g, '<br>').replace(/\n/g, '<br>').trim();
         const boxBg = isHk ? 'bg-sky-50/80 border-sky-100' : 'bg-emerald-50/80 border-emerald-100';
         htmlBuilder += `
-          <div class="${boxBg} p-5 rounded-2xl border text-slate-800 shadow-inner leading-loose text-lg md:text-xl font-medium">
+          <div class="${boxBg} p-5 md:p-6 rounded-3xl border text-slate-800 shadow-inner leading-relaxed text-base md:text-lg font-medium font-noto-hk">
             ${formattedRoutine}
           </div>
         `;
@@ -376,12 +380,12 @@
             let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
 
             htmlBuilder += `
-              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
+              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full font-noto-hk">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
+                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${alertTitle}
                 </div>
-                <div class="text-base md:text-lg font-bold opacity-95 tracking-wide break-words whitespace-normal mt-2">
+                <div class="text-base md:text-lg font-bold opacity-95 tracking-wide break-words whitespace-normal mt-1">
                   ${alertBody}
                 </div>
               </div>
@@ -405,19 +409,19 @@
             let footerMatch = remain.match(/[\n！!]*\s*(💡\s*請各位.*|請注意.*)$/is);
             if (footerMatch) {
                 let cleanFooterText = footerMatch[1].replace(/💡\s*/, '').replace(/[！!]+$/g, '').trim();
-                alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal"><i class="fa-solid fa-circle-info"></i> <span>${cleanFooterText}</span></div>`;
+                alertFooter = `<div class="mt-3 text-sm md:text-base font-semibold opacity-95 tracking-wide w-full break-words whitespace-normal font-noto-hk text-center"><i class="fa-solid fa-circle-info"></i> <span>${cleanFooterText}</span></div>`;
                 remain = remain.replace(footerMatch[0], '').trim();
             }
 
             let alertBody = remain.replace(/[「」]/g, '').replace(/\n+/g, '<br>');
 
             htmlBuilder += `
-              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
+              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full font-noto-hk">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
+                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${formattedTitle}
                 </div>
-                <div class="text-sm md:text-base font-medium leading-loose bg-white/15 px-5 py-5 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
+                <div class="text-sm md:text-base font-medium leading-relaxed bg-white/15 px-4 py-4 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
                   ${alertBody}
                 </div>
                 ${alertFooter}
@@ -433,7 +437,7 @@
             let footerMatch = remain.match(/[\n！!]*\s*(請注意.*)$/is);
             if (footerMatch) {
                 let cleanFooterText = footerMatch[1].replace(/[！!\s]+$/g, '').trim();
-                alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${cleanFooterText}</div>`;
+                alertFooter = `<div class="mt-3 text-sm md:text-base font-semibold opacity-95 tracking-wide w-full break-words whitespace-normal font-noto-hk text-center">${cleanFooterText}</div>`;
                 remain = remain.replace(footerMatch[0], '').trim();
             }
 
@@ -469,25 +473,24 @@
 
                             let innerHtml = `<span>${emoji} ${titlePart}</span>`;
                             if (timePart) {
-                                innerHtml += `<span class="text-xs font-normal opacity-90 mt-1">${timePart}</span>`;
+                                innerHtml += `<span class="text-xs font-normal opacity-90 mt-0.5">${timePart}</span>`;
                             }
 
                             let bgSpan = boxBgColor === '#ffffff' ? 'bg-white border-slate-200' : 'bg-white/25 border-white/30';
-                            capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-black text-lg md:text-xl ${highlightColor} drop-shadow-md text-center leading-snug w-full">${innerHtml}</span>`);
+                            capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-bold text-base md:text-lg ${highlightColor} drop-shadow-md text-center leading-snug w-full font-noto-hk">${innerHtml}</span>`);
                         }
                     });
                 }
             });
 
-            // 🎯 核心修改：徹底移除「天文台現正生效：」等前綴，只保留簡潔膠囊容器
             let capsulesContainerHtml = capsules.length > 0 
                 ? `<div class="flex flex-col items-center justify-center gap-2 mt-1 w-full box-border">${capsules.join('')}</div>`
                 : '';
 
             htmlBuilder += `
-              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
+              <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full font-noto-hk">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
+                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${alertTitle}
                 </div>
                 
@@ -506,7 +509,7 @@
         timeEl.innerText = '最後更新：' + showTime;
       } else {
         contentEl.innerHTML = `
-          <div class="text-center py-8 text-slate-500 font-medium text-lg space-y-2">
+          <div class="text-center py-8 text-slate-500 font-medium text-lg space-y-2 font-noto-hk">
             <p>🔄 數據更新中，請稍候...</p>
           </div>
         `;

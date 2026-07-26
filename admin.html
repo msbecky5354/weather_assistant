@@ -11,6 +11,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600;700;900&display=swap');
         body { font-family: 'Noto Sans HK', -apple-system, sans-serif; }
+        .font-noto-hk { font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif !important; }
         @media print {
             body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
@@ -21,7 +22,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-6 min-h-screen">
+<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-6 min-h-screen font-noto-hk">
 
     <div class="max-w-3xl mx-auto">
         <!-- 頂部控制台 -->
@@ -95,7 +96,7 @@
         async function fetchData() {
             const container = document.getElementById('feed-container');
             container.innerHTML = `
-                <div class="text-center py-10 text-slate-400 space-y-3 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                <div class="text-center py-10 text-slate-400 space-y-3 bg-white rounded-3xl border border-gray-100 shadow-sm font-noto-hk">
                     <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
                     <p class="text-base font-medium">同步緊數據庫...</p>
                 </div>
@@ -107,7 +108,7 @@
                 .order('id', { ascending: false });
 
             if (error) {
-                container.innerHTML = `<div class="text-center text-red-500 py-10 bg-white rounded-3xl font-bold shadow-sm">讀取失敗，請檢查 config.js 及連線。</div>`;
+                container.innerHTML = `<div class="text-center text-red-500 py-10 bg-white rounded-3xl font-bold shadow-sm font-noto-hk">讀取失敗，請檢查 config.js 及連線。</div>`;
                 return;
             }
 
@@ -137,9 +138,9 @@
         function updateFilterUI(category) {
             document.querySelectorAll(`.filter-btn-${category}`).forEach(btn => {
                 if (btn.getAttribute('data-val') === currentFilter[category]) {
-                    btn.className = `filter-btn-${category} px-4 py-1.5 rounded-xl text-sm font-bold bg-indigo-100 text-indigo-700 border border-indigo-200 transition-all shadow-sm`;
+                    btn.className = `filter-btn-${category} px-4 py-1.5 rounded-xl text-sm font-bold bg-indigo-100 text-indigo-700 border border-indigo-200 transition-all shadow-sm font-noto-hk`;
                 } else {
-                    btn.className = `filter-btn-${category} px-4 py-1.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 border border-transparent hover:bg-slate-200 transition-all`;
+                    btn.className = `filter-btn-${category} px-4 py-1.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-600 border border-transparent hover:bg-slate-200 transition-all font-noto-hk`;
                 }
             });
         }
@@ -149,11 +150,11 @@
             const btnTable = document.getElementById('view-tab-table');
 
             if (currentViewMode === 'box') {
-                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md';
-                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md font-noto-hk';
+                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900 font-noto-hk';
             } else {
-                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md';
-                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md font-noto-hk';
+                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900 font-noto-hk';
             }
         }
 
@@ -169,13 +170,13 @@
             });
 
             if (filteredData.length === 0) {
-                container.innerHTML = '<div class="text-center text-slate-400 py-10 bg-white rounded-3xl border border-gray-100 shadow-sm font-bold">冇符合條件嘅記錄。</div>';
+                container.innerHTML = '<div class="text-center text-slate-400 py-10 bg-white rounded-3xl border border-gray-100 shadow-sm font-bold font-noto-hk">冇符合條件嘅記錄。</div>';
                 return;
             }
 
             if (currentViewMode === 'table') {
                 let tableWrapper = document.createElement('div');
-                tableWrapper.className = "bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden p-2 md:p-4";
+                tableWrapper.className = "bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden p-2 md:p-4 font-noto-hk";
 
                 let rowsHTML = filteredData.map(row => {
                     const isHk = row.region === 'HK';
@@ -238,7 +239,7 @@
                     : `<span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md">🇨🇳 中山地區</span>`;
                 
                 let headerHTML = `
-                    <div class="flex items-center justify-between text-xs md:text-sm text-slate-500 border-b border-slate-100 pb-3 mb-4">
+                    <div class="flex items-center justify-between text-xs md:text-sm text-slate-500 border-b border-slate-100 pb-3 mb-4 font-noto-hk">
                         <span class="flex items-center gap-1.5 font-bold text-sky-700">
                             <span class="text-slate-300 font-normal">#${row.id}</span>
                             <i class="fa-solid fa-clock"></i> <span>最後更新：${formatHKTime(row.created_at)}</span>
@@ -254,7 +255,7 @@
                     const boxBg = isHk ? 'bg-sky-50/80 border-sky-100' : 'bg-emerald-50/80 border-emerald-100';
                     
                     contentHTML = `
-                        <div class="${boxBg} p-5 rounded-2xl border text-slate-800 shadow-inner leading-loose text-base font-medium">
+                        <div class="${boxBg} p-5 md:p-6 rounded-3xl border text-slate-800 shadow-inner leading-relaxed text-base md:text-lg font-medium font-noto-hk">
                             ${formattedRoutine}
                         </div>
                     `;
@@ -294,10 +295,10 @@
                         let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border font-noto-hk">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-2 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">${alertTitle}</div>
-                                <div class="text-base md:text-lg font-bold opacity-95 tracking-wide break-words whitespace-normal mt-2">${alertBody}</div>
+                                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">${alertTitle}</div>
+                                <div class="text-base md:text-lg font-bold opacity-95 tracking-wide break-words whitespace-normal mt-1">${alertBody}</div>
                             </div>`;
                     } 
                     else if (rawMsg.includes('提早收工戒備')) {
@@ -318,7 +319,7 @@
                         let footerMatch = remain.match(/[\n！!]*\s*(💡\s*請各位.*|請注意.*)$/is);
                         if (footerMatch) {
                             let cleanFooterText = footerMatch[1].replace(/💡\s*/, '').replace(/[！!]+$/g, '').trim();
-                            alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal text-center flex items-center justify-center gap-1.5">
+                            alertFooter = `<div class="mt-3 text-sm md:text-base font-semibold opacity-95 tracking-wide w-full break-words whitespace-normal text-center flex items-center justify-center gap-1.5 font-noto-hk">
                                               <i class="fa-solid fa-circle-info"></i> <span>${cleanFooterText}</span>
                                            </div>`;
                             remain = remain.replace(footerMatch[0], '').trim();
@@ -326,10 +327,10 @@
                         let alertBody = remain.replace(/[「」]/g, '').replace(/\n+/g, '<br>');
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center transition-colors relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center transition-colors relative overflow-hidden w-full box-border font-noto-hk">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug text-center px-2">${formattedTitle}</div>
-                                <div class="text-sm md:text-base font-medium leading-loose bg-white/15 px-5 py-5 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
+                                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug text-center px-2">${formattedTitle}</div>
+                                <div class="text-sm md:text-base font-medium leading-relaxed bg-white/15 px-4 py-4 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
                                     ${alertBody}
                                 </div>
                                 ${alertFooter}
@@ -344,7 +345,7 @@
                         let footerMatch = remain.match(/[\n！!]*\s*(請注意.*)$/is);
                         if (footerMatch) {
                             let cleanFooterText = footerMatch[1].replace(/[！!\s]+$/g, '').trim();
-                            alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${cleanFooterText}</div>`;
+                            alertFooter = `<div class="mt-3 text-sm md:text-base font-semibold opacity-95 tracking-wide w-full break-words whitespace-normal font-noto-hk text-center">${cleanFooterText}</div>`;
                             remain = remain.replace(footerMatch[0], '').trim();
                         }
 
@@ -380,25 +381,24 @@
 
                                         let innerHtml = `<span>${emoji} ${titlePart}</span>`;
                                         if (timePart) {
-                                            innerHtml += `<span class="text-xs font-normal opacity-90 mt-1">${timePart}</span>`;
+                                            innerHtml += `<span class="text-xs font-normal opacity-90 mt-0.5">${timePart}</span>`;
                                         }
 
                                         let bgSpan = boxBgColor === '#ffffff' ? 'bg-white border-slate-200' : 'bg-white/25 border-white/30';
-                                        capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-black text-lg md:text-xl ${highlightColor} drop-shadow-md text-center leading-snug w-full">${innerHtml}</span>`);
+                                        capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-bold text-base md:text-lg ${highlightColor} drop-shadow-md text-center leading-snug w-full font-noto-hk">${innerHtml}</span>`);
                                     }
                                 });
                             }
                         });
 
-                        // 🎯 核心修改：徹底移除「天文台現正生效：」等前綴，只保留簡潔膠囊容器
                         let capsulesContainerHtml = capsules.length > 0 
                             ? `<div class="flex flex-col items-center justify-center gap-2 mt-1 w-full box-border">${capsules.join('')}</div>`
                             : '';
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border font-noto-hk">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
+                                <div class="font-black text-lg md:text-xl ${headerColor} mb-3 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                                   ${alertTitle}
                                 </div>
                                 <div class="w-full flex flex-col items-center justify-center box-border">
@@ -411,7 +411,7 @@
                 }
 
                 let card = document.createElement('div');
-                card.className = "bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm border border-white/80 relative overflow-hidden max-w-md mx-auto w-full";
+                card.className = "bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm border border-white/80 relative overflow-hidden max-w-md mx-auto w-full font-noto-hk";
                 card.innerHTML = `
                     <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-sky-400 via-amber-400 to-rose-400"></div>
                     ${headerHTML}
