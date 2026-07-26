@@ -85,11 +85,25 @@
             return `${d.getDate()}/${d.getMonth() + 1} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
         }
 
+      // 精準類別過濾條件
         function detectType(message) {
             if (!message || message.trim() === "") return '隱藏'; 
-            if (message.startsWith('HK *') || message.startsWith('CN *') || message.includes('🇭🇰') || message.includes('🇨🇳')) {
+            
+            // 定義「日常」推播專屬嘅關鍵字清單 (用 in (...) 嘅邏輯)
+            const routineKeywords = [
+                '夜間氣候預警', 
+                '🇨🇳 *', 
+                '🇭🇰 *', 
+                '午間天氣速遞', 
+                '晚間天氣總結'
+            ];
+            
+            // 只要 message 包含上面清單中嘅任何一個字眼，就會 return '日常'
+            if (routineKeywords.some(keyword => message.includes(keyword))) {
                 return '日常';
             }
+            
+            // 如果全部都唔中，就歸類為 '哨兵'
             return '哨兵';
         }
 
@@ -174,6 +188,7 @@
                 return;
             }
 
+            // Data Table 視圖 (100% 呈現原始 DB 數據)
             if (currentViewMode === 'table') {
                 let tableWrapper = document.createElement('div');
                 tableWrapper.className = "bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden p-2 md:p-4 font-noto-hk";
@@ -188,14 +203,7 @@
                         ? `<span class="bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">日常</span>`
                         : `<span class="bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">哨兵</span>`;
 
-                    let cleanPreview = row.message
-                        .replace(/\*/g, '')
-                        .replace(/[【】]/g, '')
-                        .replace(/[「」]/g, '')
-                        .replace(/[！!]+$/g, '')
-                        .replace(/^(HK|CN)\s*\*\s*/, '')
-                        .replace(/\n+/g, ' ')
-                        .trim();
+                    let cleanPreview = row.message ? row.message.replace(/\n+/g, ' ').trim() : '';
 
                     return `
                         <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition-colors">
@@ -230,6 +238,7 @@
                 return;
             }
 
+            // Layout Box 視圖
             filteredData.forEach(row => {
                 const isHk = row.region === 'HK';
                 let msg = row.message;
