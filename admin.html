@@ -11,7 +11,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600;700;900&display=swap');
         body { font-family: 'Noto Sans HK', -apple-system, sans-serif; }
-        /* 強制列印/PDF 保留背景色與漸變色 */
         @media print {
             body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
@@ -24,7 +23,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-6 min-h-screen">
 
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-3xl mx-auto">
         <!-- 頂部控制台 -->
         <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-3xl shadow-sm border border-gray-100">
             <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-indigo-600 tracking-tight flex items-center gap-2">
@@ -36,7 +35,7 @@
         </div>
 
         <!-- Filter 過濾器 -->
-        <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 mb-6 flex flex-col md:flex-row gap-6">
+        <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 mb-4 flex flex-col md:flex-row gap-6">
             <div>
                 <span class="text-sm font-bold text-slate-400 block mb-2">地區 (Region)</span>
                 <div class="flex gap-2">
@@ -55,7 +54,17 @@
             </div>
         </div>
 
-        <!-- 卡片流 (Feed Container) -->
+        <!-- 🔀 視圖切換 (View Switcher Tabs) -->
+        <div class="flex rounded-2xl bg-slate-200/80 p-1.5 gap-1.5 shadow-inner mb-6">
+            <button id="view-tab-box" onclick="setViewMode('box')" class="flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md">
+                <i class="fa-solid fa-layer-group"></i> 視覺卡片 (Layout Box)
+            </button>
+            <button id="view-tab-table" onclick="setViewMode('table')" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <i class="fa-solid fa-table-list"></i> 數據表格 (Data Table)
+            </button>
+        </div>
+
+        <!-- Feed / Table Container -->
         <div id="feed-container" class="space-y-6">
             <div class="text-center py-10 text-slate-400 space-y-3 bg-white rounded-3xl border border-gray-100">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
@@ -68,8 +77,8 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let allData = [];
         let currentFilter = { region: 'ALL', type: 'ALL' };
+        let currentViewMode = 'box';
 
-        // 格式化時間： 25/7 23:16:23
         function formatHKTime(isoString) {
             const d = new Date(isoString);
             return `${d.getDate()}/${d.getMonth() + 1} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
@@ -107,15 +116,21 @@
                 computedType: detectType(row.message)
             }));
 
-            // 預設 active 狀態
             updateFilterUI('region');
             updateFilterUI('type');
+            updateViewTabUI();
             renderFeed();
         }
 
         function setFilter(category, value) {
             currentFilter[category] = value;
             updateFilterUI(category);
+            renderFeed();
+        }
+
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            updateViewTabUI();
             renderFeed();
         }
 
@@ -129,12 +144,25 @@
             });
         }
 
+        function updateViewTabUI() {
+            const btnBox = document.getElementById('view-tab-box');
+            const btnTable = document.getElementById('view-tab-table');
+
+            if (currentViewMode === 'box') {
+                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md';
+                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+            } else {
+                btnTable.className = 'flex-1 py-2.5 px-4 rounded-xl font-extrabold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 bg-white text-indigo-700 shadow-md';
+                btnBox.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-sm md:text-base flex items-center justify-center gap-2 transition-all duration-200 text-slate-600 hover:text-slate-900';
+            }
+        }
+
         function renderFeed() {
             const container = document.getElementById('feed-container');
             container.innerHTML = '';
 
             const filteredData = allData.filter(row => {
-                if (row.computedType === '隱藏') return false; // 排除空字串
+                if (row.computedType === '隱藏') return false;
                 const matchRegion = currentFilter.region === 'ALL' || row.region === currentFilter.region;
                 const matchType = currentFilter.type === 'ALL' || row.computedType === currentFilter.type;
                 return matchRegion && matchType;
@@ -145,11 +173,66 @@
                 return;
             }
 
+            if (currentViewMode === 'table') {
+                let tableWrapper = document.createElement('div');
+                tableWrapper.className = "bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden p-2 md:p-4";
+
+                let rowsHTML = filteredData.map(row => {
+                    const isHk = row.region === 'HK';
+                    const regionBadge = isHk 
+                        ? `<span class="bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">🇭🇰 香港</span>`
+                        : `<span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">🇨🇳 中山</span>`;
+                    
+                    const typeBadge = row.computedType === '日常'
+                        ? `<span class="bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">日常</span>`
+                        : `<span class="bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded text-xs whitespace-nowrap">哨兵</span>`;
+
+                    let cleanPreview = row.message
+                        .replace(/\*/g, '')
+                        .replace(/[【】]/g, '')
+                        .replace(/[「」]/g, '')
+                        .replace(/[！!]+$/g, '')
+                        .replace(/^(HK|CN)\s*\*\s*/, '')
+                        .replace(/\n+/g, ' ')
+                        .trim();
+
+                    return `
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition-colors">
+                            <td class="py-3 px-3 font-mono font-bold text-xs text-slate-400">#${row.id}</td>
+                            <td class="py-3 px-3 font-medium text-xs text-slate-600 whitespace-nowrap">${formatHKTime(row.created_at)}</td>
+                            <td class="py-3 px-3">${regionBadge}</td>
+                            <td class="py-3 px-3">${typeBadge}</td>
+                            <td class="py-3 px-3 text-xs md:text-sm font-medium text-slate-800 leading-relaxed max-w-md break-words">${cleanPreview}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tableWrapper.innerHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 bg-slate-50/50 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                    <th class="py-3 px-3">ID</th>
+                                    <th class="py-3 px-3">更新時間</th>
+                                    <th class="py-3 px-3">地區</th>
+                                    <th class="py-3 px-3">類別</th>
+                                    <th class="py-3 px-3">訊息內容預覽 (Audit Preview)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(tableWrapper);
+                return;
+            }
+
             filteredData.forEach(row => {
                 const isHk = row.region === 'HK';
                 let msg = row.message;
 
-                // 📌 卡片標頭 (對齊 Frontend)
                 let regionBadge = isHk 
                     ? `<span class="bg-sky-100 text-sky-800 font-bold px-2.5 py-0.5 rounded-md">🇭🇰 香港地區</span>`
                     : `<span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-md">🇨🇳 中山地區</span>`;
@@ -167,9 +250,6 @@
                 let contentHTML = "";
 
                 if (row.computedType === '日常') {
-                    // ==========================================
-                    // 🌤️ 日常天氣 (嚴格區分顏色)
-                    // ==========================================
                     let formattedRoutine = msg.replace(/^(HK|CN)\s*\*\s*/, '').replace(/\*(.*?)\*/g, '<span class="font-bold text-slate-900">$1</span>').replace(/\n/g, '<br>').trim();
                     const boxBg = isHk ? 'bg-sky-50/80 border-sky-100' : 'bg-emerald-50/80 border-emerald-100';
                     
@@ -179,15 +259,11 @@
                         </div>
                     `;
                 } else {
-                    // ==========================================
-                    // 🚨 哨兵警報 (四層立體結構 + 動態顏色引擎)
-                    // ==========================================
-                    let boxBgColor = '#dc2626'; // 預設紅色
+                    let boxBgColor = '#dc2626'; 
                     let textColor = '#ffffff';  
                     let headerColor = 'text-yellow-300'; 
                     let isAlertPulse = 'alert-pulse'; 
 
-                    // 🎨 判定底色
                     if (msg.includes('警報解除')) {
                         boxBgColor = '#10b981'; textColor = '#ffffff'; headerColor = 'text-white'; isAlertPulse = ''; 
                     } else if (isHk) {
@@ -206,59 +282,53 @@
                     }
 
                     let rawMsg = msg.replace(/\*/g, '').trim(); 
-                    let timeInfo = '';
 
-                    // ⏱️ 層次 1：抽離時間膠囊
                     let timeMatch = rawMsg.match(/⏰?\s*(.*時間[^\n]+)/);
                     if (timeMatch) {
-                        timeInfo = `<div class="text-xs md:text-sm font-bold bg-white/25 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4 backdrop-blur-md shadow-sm border border-white/30 text-inherit w-fit max-w-full break-words whitespace-normal text-center">
-                                      <i class="fa-solid fa-bullhorn"></i> ${timeMatch[1].trim()}
-                                    </div>`;
                         rawMsg = rawMsg.replace(timeMatch[0], '').trim();
                     }
 
                     if (rawMsg.includes('警報解除')) {
-                        // 🟢 安全解除 Layout
-                        let titleMatch = rawMsg.match(/([✅\s]*【.*?】)/);
-                        let alertTitle = titleMatch ? titleMatch[1].trim() : `✅ 【${isHk ? '香港' : '中山'}警報解除】`;
-                        let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
+                        let titleMatch = rawMsg.match(/([✅\s]*【.*?】|[✅\s]*[^\n]+警報解除)/);
+                        let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : `✅ ${isHk ? '香港' : '中山'}警報解除`;
+                        let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
 
                         contentHTML = `
                             <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                ${timeInfo}
-                                <div class="font-black text-xl md:text-2xl ${headerColor} mb-2 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">${alertTitle}</div>
+                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-2 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">${alertTitle}</div>
                                 <div class="text-base md:text-lg font-bold opacity-95 tracking-wide break-words whitespace-normal mt-2">${alertBody}</div>
                             </div>`;
                     } 
                     else if (rawMsg.includes('提早收工戒備')) {
-                        // 🟡 長文通告 Layout (防爆積木 + 官方引言線)
-                        let titleMatch = rawMsg.match(/([🚨🌪️\s]*【.*?】)/);
-                        let alertTitle = titleMatch ? titleMatch[1].trim() : '🚨 突發極端天氣警報';
+                        let titleMatch = rawMsg.match(/([🚨🌪️\s]*【.*?】|[🚨🌪️\s]*提早收工戒備[：:]?[^\n]*)/);
+                        let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : '🚨 提早收工戒備';
                         let remain = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
                         
                         let formattedTitle = alertTitle;
                         if (formattedTitle.includes('：')) {
                             let parts = formattedTitle.split('：');
                             formattedTitle = `${parts[0]}：<br><span class="inline-block whitespace-nowrap">${parts[1]}</span>`;
+                        } else if (formattedTitle.includes(':')) {
+                            let parts = formattedTitle.split(':');
+                            formattedTitle = `${parts[0]}：<br><span class="inline-block whitespace-nowrap">${parts[1]}</span>`;
                         }
 
                         let alertFooter = '';
                         let footerMatch = remain.match(/[\n！!]*\s*(💡\s*請各位.*|請注意.*)$/is);
                         if (footerMatch) {
-                            let cleanFooterText = footerMatch[1].replace(/💡\s*/, '').trim();
-                            alertFooter = `<div class="mt-5 text-sm sm:text-base font-bold opacity-90 tracking-wide w-full break-words whitespace-normal text-center flex items-center justify-center gap-1.5">
+                            let cleanFooterText = footerMatch[1].replace(/💡\s*/, '').replace(/[！!]+$/g, '').trim();
+                            alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal text-center flex items-center justify-center gap-1.5">
                                               <i class="fa-solid fa-circle-info"></i> <span>${cleanFooterText}</span>
                                            </div>`;
                             remain = remain.replace(footerMatch[0], '').trim();
                         }
-                        let alertBody = remain.replace(/\n+/g, '<br>');
+                        let alertBody = remain.replace(/[「」]/g, '').replace(/\n+/g, '<br>');
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-7 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center transition-colors relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center transition-colors relative overflow-hidden w-full box-border">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                ${timeInfo}
-                                <div class="font-black text-xl md:text-2xl ${headerColor} mb-5 drop-shadow-md tracking-tight w-full leading-snug text-center px-2">${formattedTitle}</div>
+                                <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug text-center px-2">${formattedTitle}</div>
                                 <div class="text-sm md:text-base font-medium leading-loose bg-white/15 px-5 py-5 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
                                     ${alertBody}
                                 </div>
@@ -266,43 +336,73 @@
                             </div>`;
                     }
                     else {
-                        // 🔴 條件四：常規膠囊 Layout (終極霸氣極限版)
-                        let titleMatch = rawMsg.match(/([🚨\s]*【.*?】)/);
-                        let alertTitle = titleMatch ? titleMatch[1].trim() : '🚨 突發極端天氣警報';
+                        let titleMatch = rawMsg.match(/([🚨\s]*【.*?】|[🚨\s]*[^\n]+戒備|[🚨\s]*[^\n]+預警)/);
+                        let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : (isHk ? '🚨 香港極端天氣預警' : '🚨 中山極端天氣預警');
                         let remain = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
 
                         let alertFooter = '';
                         let footerMatch = remain.match(/[\n！!]*\s*(請注意.*)$/is);
                         if (footerMatch) {
-                            alertFooter = `<div class="mt-4 text-sm sm:text-base md:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${footerMatch[1].replace(/^[！!\s]+|[！!\s]+$/g, '')}</div>`;
+                            let cleanFooterText = footerMatch[1].replace(/[！!\s]+$/g, '').trim();
+                            alertFooter = `<div class="mt-4 text-base sm:text-lg opacity-90 font-medium tracking-wide w-full break-words whitespace-normal">${cleanFooterText}</div>`;
                             remain = remain.replace(footerMatch[0], '').trim();
                         }
 
                         let highlightColor = textColor === '#ffffff' ? 'text-white' : 'text-slate-900';
-                        
-                        // Regex 膠囊切割：字體回升 (text-[15.5px])，無 hidden，確保 12 字單行霸氣顯示
-                        let alertBody = remain.replace(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/g, (m, emoji, text) => {
-                            let parts = text.split('、'); 
-                            let capsules = parts.map(p => {
-                                let cleanText = p.trim().replace(/[！!]+$/, '');
-                                // ⬆️ 將 text-[13px] 提升至 text-[15.5px] (或者寫 text-base)，並微調 px-3 py-2 令比例更完美
-                                return `<span class="inline-flex items-center gap-1.5 bg-white/25 px-3 sm:px-4 py-2 rounded-xl shadow-sm border border-white/30 font-black text-[15.5px] sm:text-lg md:text-xl ${highlightColor} drop-shadow-md whitespace-nowrap shrink-0 max-w-full">${emoji} ${cleanText}</span>`;
-                            });
-                            return `<div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-3 mb-1 w-full box-border">${capsules.join('')}</div>`;
+
+                        let cleanRemain = remain
+                          .replace(/(天文台|中山市氣象局)(現正發出|啱啱掛咗|現正生效[：:]?)\s*/g, '')
+                          .trim();
+
+                        let capsules = [];
+                        let lines = cleanRemain.split(/\n+/);
+                        lines.forEach(line => {
+                            let lineMatch = line.match(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/);
+                            if (lineMatch) {
+                                let emoji = lineMatch[1];
+                                let text = lineMatch[2];
+                                let parts = text.split('、'); 
+                                parts.forEach(p => {
+                                    let cleanText = p.trim().replace(/[！!]+$/, '');
+                                    if (cleanText) {
+                                        let titlePart = cleanText;
+                                        let timePart = '';
+                                        
+                                        let timeInParen = cleanText.match(/(.*?)（(.*?)）/);
+                                        if (timeInParen) {
+                                            titlePart = timeInParen[1].trim();
+                                            timePart = timeInParen[2].trim();
+                                        }
+
+                                        if (titlePart.includes('或') && !titlePart.includes('<br>')) {
+                                            titlePart = titlePart.replace('或', '<br>或');
+                                        }
+
+                                        let innerHtml = `<span>${emoji} ${titlePart}</span>`;
+                                        if (timePart) {
+                                            innerHtml += `<span class="text-xs font-normal opacity-90 mt-1">${timePart}</span>`;
+                                        }
+
+                                        let bgSpan = boxBgColor === '#ffffff' ? 'bg-white border-slate-200' : 'bg-white/25 border-white/30';
+                                        capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-black text-lg md:text-xl ${highlightColor} drop-shadow-md text-center leading-snug w-full">${innerHtml}</span>`);
+                                    }
+                                });
+                            }
                         });
-                        alertBody = alertBody.replace(/\n+/g, '<br>').replace(/^<br>|<br>$/g, '');
+
+                        // 🎯 核心修改：徹底移除「天文台現正生效：」等前綴，只保留簡潔膠囊容器
+                        let capsulesContainerHtml = capsules.length > 0 
+                            ? `<div class="flex flex-col items-center justify-center gap-2 mt-1 w-full box-border">${capsules.join('')}</div>`
+                            : '';
 
                         contentHTML = `
-                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 sm:p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-5 transition-colors duration-500 relative overflow-hidden w-full box-border">
+                            <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                                ${timeInfo}
-                                <!-- 🛡️ 鎖死單行，霸氣不換行 -->
                                 <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                                   ${alertTitle}
                                 </div>
-                                <!-- 🛡️ 榨乾橫向空間，內框 Padding 極限 px-2 -->
-                                <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed bg-black/10 px-2 sm:px-5 py-4 rounded-2xl backdrop-blur-sm w-full border border-black/5 shadow-inner flex flex-col items-center justify-center box-border">
-                                  ${alertBody}
+                                <div class="w-full flex flex-col items-center justify-center box-border">
+                                  ${capsulesContainerHtml}
                                 </div>
                                 ${alertFooter}
                             </div>
@@ -311,7 +411,7 @@
                 }
 
                 let card = document.createElement('div');
-                card.className = "bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm border border-white/80 relative overflow-hidden";
+                card.className = "bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm border border-white/80 relative overflow-hidden max-w-md mx-auto w-full";
                 card.innerHTML = `
                     <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-sky-400 via-amber-400 to-rose-400"></div>
                     ${headerHTML}

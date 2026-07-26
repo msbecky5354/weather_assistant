@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>天氣小助手 - 香港與中山即時廣東話天氣預報</title>
 
-  <!-- 基礎不變的 Meta 標籤 -->
   <meta name="description" content="「天氣小助手」係一款專為香港人及港車北上中山朋友而設嘅即時廣東話天氣應用。每日 07:15 及 18:00 準時發放地道預報，極端天氣 24 小時即時同步警報，免下載、免翻牆！">
   <meta name="keywords" content="天氣小助手, 香港天氣, 中山天氣, 港車北上, 廣東話天氣, 颱風預警, 暴雨警告, 天氣預報, 懶人工具駅">
   <meta name="author" content="懶人工具駅">
@@ -18,17 +17,12 @@
   <meta name="twitter:title" content="🌤️ 天氣小助手 - 香港與中山廣東話天氣">
   <meta name="twitter:description" content="專為港人及港車北上而設，地道廣東話天氣提示，免下載、免翻牆！">
 
-  <!-- ========================================== -->
-  <!-- 🔒 核心 URL 動態加密組裝區 (零 Hardcode) -->
-  <!-- ========================================== -->
   <script>
-    // 1. 系統域名統一 Base64 變數 (放在最頂，全局通用)
     const _B = atob("aHR0cHM6Ly9tc2JlY2t5NTM1NC5naXRodWIuaW8v");
     const _APP_URL = _B + "weather_assistant/";
     const _ICON_192 = _B + "JSON/img/icon-192.png";
     const _ICON_512 = _B + "JSON/img/icon-512.png";
 
-    // 2. 動態寫入所有 SEO、Icon 及社交平台標籤
     document.write(`
       <link rel="canonical" href="${_APP_URL}">
       <meta property="og:url" content="${_APP_URL}">
@@ -41,7 +35,6 @@
       <link rel="apple-touch-icon" sizes="180x180" href="${_ICON_512}">
     `);
 
-    // 3. 動態寫入 Google JSON-LD 結構化數據
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -58,7 +51,6 @@
     };
     document.write('<script type="application/ld+json">' + JSON.stringify(jsonLd) + '<\\/script>');
 
-    // 4. 動態寫入 PWA Manifest
     const manifestJson = {
       "name": "天氣小助手",
       "short_name": "天氣小助手",
@@ -74,14 +66,12 @@
     document.write('<link rel="manifest" href="data:application/manifest+json,' + encodeURIComponent(JSON.stringify(manifestJson)) + '">');
   </script>
 
-  <!-- PWA Meta 標籤 -->
   <meta name="theme-color" content="#38bdf8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="天氣小助手">
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-90FENSXG02"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -90,9 +80,7 @@
     gtag('config', 'G-90FENSXG02');
   </script>
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome 圖標庫 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
@@ -149,7 +137,7 @@
       </div>
     </header>
 
-    <!-- 🇭🇰 香港 / 🇨🇳 中山 雙分頁 Tabs -->
+    <!-- 分頁 Tabs -->
     <div class="flex rounded-2xl bg-slate-200/80 p-1.5 gap-1.5 shadow-inner">
       <button id="tab-hk" onclick="switchCity('hk')" class="flex-1 py-3 px-4 rounded-xl font-extrabold text-lg flex items-center justify-center gap-2 transition-all duration-200 bg-white text-sky-700 shadow-md">
         <span>🇭🇰</span> 香港
@@ -172,7 +160,6 @@
         </span>
       </div>
 
-      <!-- 天氣廣東話內容 -->
       <div id="weather-content" class="min-h-[180px] flex flex-col justify-center space-y-4">
         <div class="text-center py-8 text-slate-400 space-y-3">
           <i class="fa-solid fa-circle-notch fa-spin text-3xl text-sky-500"></i>
@@ -188,7 +175,6 @@
       </div>
     </main>
 
-    <!-- 頁尾 -->
     <footer class="text-center space-y-1.5 pt-2">
       <div>
         <button onclick="openModal()" class="text-indigo-600 hover:text-indigo-800 font-medium text-xs underline underline-offset-2">
@@ -201,7 +187,6 @@
     </footer>
   </div>
 
-  <!-- 🔗 分享 + QR Code 彈出視窗 -->
   <div id="share-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card bg-white/95 rounded-3xl max-w-sm w-full p-6 space-y-5 relative shadow-2xl border border-white text-center">
       <button onclick="closeShareModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
@@ -213,44 +198,20 @@
         <div class="p-3 bg-white rounded-2xl border border-slate-200 shadow-inner">
           <img id="qr-code-img" src="" alt="天氣小助手 QR Code" class="w-44 h-44 rounded-lg bg-slate-50">
         </div>
-        <span class="text-xs text-slate-400 font-medium">📷 手機相機直接掃描即可開啟</span>
       </div>
       <div class="space-y-2 pt-1">
         <button onclick="copyShareLink()" id="copy-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm">
           <i class="fa-solid fa-link"></i> <span id="copy-text">複製網頁連結</span>
         </button>
-        <button onclick="triggerNativeShare()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
-          <i class="fa-solid fa-share-nodes"></i> 發送到社交平台 / 群組
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- 📲 PWA 加至主畫面教學 Modal -->
   <div id="pwa-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-5 relative shadow-2xl border border-white">
       <button onclick="closePwaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
       <div class="text-center border-b border-slate-100 pb-3">
-        <h2 class="text-2xl font-black text-slate-800 flex items-center justify-center gap-2"><span>📲</span> 安裝「天氣小助手」App</h2>
-        <p class="text-xs text-slate-500 mt-1">無需經 App Store / Google Play，一鍵加至手機桌面！</p>
-      </div>
-      <div class="space-y-4 text-slate-700 text-sm leading-relaxed">
-        <div class="bg-sky-50/80 p-4 rounded-2xl border border-sky-100 space-y-2">
-          <div class="font-extrabold text-sky-800 flex items-center gap-2 text-base"><span>🍏</span> iPhone / iPad (Safari 瀏覽器)</div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
-            <li>點擊 Safari 瀏覽器底部的 <b>「分享」按鈕 ⎋</b></li>
-            <li>向上滑動選單，點擊 <b>「加至主畫面 ➕」</b></li>
-            <li>點擊右上角 <b>「加入」</b> 即完成安裝！</li>
-          </ol>
-        </div>
-        <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-100 space-y-2">
-          <div class="font-extrabold text-emerald-800 flex items-center gap-2 text-base"><span>🤖</span> Android (Chrome 瀏覽器)</div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-700 font-medium text-xs md:text-sm">
-            <li>點擊 Chrome 右上角的 <b>選單按鈕 (三點 ⋮)</b></li>
-            <li>點擊 <b>「新增至主畫面」</b> 或 <b>「安裝應用程式」</b></li>
-            <li>點擊 <b>「新增 / 安裝」</b> 即完成！</li>
-          </ol>
-        </div>
+        <h2 class="text-2xl font-black text-slate-800">📲 安裝「天氣小助手」App</h2>
       </div>
       <div class="pt-2 text-center">
         <button onclick="closePwaModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all text-sm">我明白咗</button>
@@ -258,31 +219,11 @@
     </div>
   </div>
 
-  <!-- 關於我們 & 條款 彈出視窗 -->
   <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl border border-white">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
       <div class="text-center border-b border-slate-100 pb-3">
         <h2 class="text-2xl font-black text-slate-800">🌤️ 關於我們與條款</h2>
-      </div>
-      <div class="space-y-6 text-slate-700 text-sm md:text-base leading-relaxed">
-        <section class="space-y-2">
-          <h3 class="text-lg font-extrabold text-sky-700 flex items-center gap-2"><span>📍</span> 關於「天氣小助手」</h3>
-          <p class="bg-sky-50/60 p-4 rounded-2xl border border-sky-100 text-slate-700 font-medium leading-relaxed">
-            「天氣小助手」係一款專為<b>香港人</b>，以及<b>港車北上到中山玩樂或生活嘅香港朋友</b>而設嘅即時氣象應用。<br><br>
-            透過<b>清晰醒目、地道廣東話</b>嘅即時天氣提示，將冷冰冰嘅氣象數字轉化為實用提醒。無論你身喺香港，定係揸車北上中山消費、旅遊或定居，點開就能一目了然掌握兩地最新天氣變化，出門帶雨傘、降溫加件衫，為你嘅跨城生活同行程帶來多一份安心。
-          </p>
-        </section>
-        <section class="space-y-2">
-          <h3 class="text-lg font-extrabold text-amber-700 flex items-center gap-2"><span>⚖️</span> 使用條款與免責聲明</h3>
-          <ol class="list-decimal list-inside space-y-2 bg-amber-50/60 p-4 rounded-2xl border border-amber-100 text-slate-700 font-medium">
-            <li><b>數據來源</b>：本應用程式之氣候資訊均引述自官方氣象公開數據，並透過自動化系統進行廣東話關懷語句整理。</li>
-            <li><b>僅供參考</b>：所有氣象資訊、貼心提醒及極端天氣警報僅供個人日常參考，並不構成官方權威氣象發布。</li>
-            <li><b>官方發布</b>：如遇極端天氣（例如颱風、暴雨警報），請務必以<b>香港天文台</b>或<b>中山市氣象局</b>之官方最新發布為準。</li>
-            <li><b>私隱承諾</b>：本程式為純前端應用（PWA），<b>完全不會</b>收集、儲存或傳送使用者之任何個人資料、位置資訊或瀏覽紀錄。</li>
-            <li><b>免責聲明</b>：對於因參考本程式資訊而引致之任何直接或間接影響，本程式概不承擔任何法律責任。</li>
-          </ol>
-        </section>
       </div>
       <div class="pt-2 text-center">
         <button onclick="closeModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all">我明白咗</button>
@@ -293,7 +234,6 @@
   <script>
     let currentCity = 'hk';
     
-    // 📦 獨立數據接口 (調用已在 head 宣告的 _B 變數)
     const endpoints = {
       hk_routine: _B + 'JSON/data/hk_weather.json',
       zs_routine: _B + 'JSON/data/zs_weather.json',
@@ -318,11 +258,7 @@
         const timeStr = new Intl.DateTimeFormat('zh-HK', { timeZone: 'Asia/Hong_Kong', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(d);
         const mdStr = new Intl.DateTimeFormat('zh-HK', { timeZone: 'Asia/Hong_Kong', month: 'numeric', day: 'numeric' }).format(d);
 
-        if (forceDate || targetHKDate !== currentHKDate) {
-          return `${mdStr} ${timeStr}`;
-        } else {
-          return `${mdStr} ${timeStr}`;
-        }
+        return (forceDate || targetHKDate !== currentHKDate) ? `${mdStr} ${timeStr}` : `${mdStr} ${timeStr}`;
       } catch (err) {
         return timeInput;
       }
@@ -373,11 +309,11 @@
           const routineData = await routineRes.json();
           if (routineData) {
             const key = city === 'hk' ? 'hk_message' : 'zs_message';
-            routineMsg = routineData[key] || routineData.hk_message || routineData.zs_message || routineData.message || (typeof routineData === 'string' ? routineData : null);
-            dataTimestamp = routineData.updated_at || routineData.time || routineData.date;
+            routineMsg = routineData[key] || routineData.message || null;
+            dataTimestamp = routineData.updated_at || routineData.time;
           }
         }
-      } catch (err) { console.warn('常規天氣 Fetch 狀態：', err); }
+      } catch (err) {}
 
       try {
         const specialRes = await fetch(specialUrl);
@@ -385,18 +321,15 @@
           const specialData = await specialRes.json();
           if (specialData) {
             const key = city === 'hk' ? 'hk_message' : 'zs_message';
-            specialMsg = specialData[key] || specialData.hk_message || specialData.zs_message || specialData.message || (typeof specialData === 'string' ? specialData : null);
-            if (!dataTimestamp) {
-              dataTimestamp = specialData.updated_at || specialData.time;
-            }
+            specialMsg = specialData[key] || specialData.message || null;
+            if (!dataTimestamp) dataTimestamp = specialData.updated_at || specialData.time;
           }
         }
-      } catch (err) { console.warn('突發預警 Fetch 狀態 (正常無視)：', err); }
+      } catch (err) {}
 
       let htmlBuilder = '';
       const isHk = city === 'hk';
 
-      // 🌤️ Box 1：常規天氣
       if (routineMsg && typeof routineMsg === 'string' && routineMsg.trim() !== '') {
         let formattedRoutine = routineMsg.replace(/\\n/g, '<br>').replace(/\n/g, '<br>').trim();
         const boxBg = isHk ? 'bg-sky-50/80 border-sky-100' : 'bg-emerald-50/80 border-emerald-100';
@@ -407,19 +340,14 @@
         `;
       }
 
-     // 🚨 Box 2：【前線突發哨兵】極端預警卡片 (修復 Frontend 版：精簡前綴 + 完美斷行 + 無標點)
       if (specialMsg && typeof specialMsg === 'string' && specialMsg.trim() !== '') {
-        let boxBgColor = '#dc2626'; // 預設紅色
+        let boxBgColor = '#dc2626';
         let textColor = '#ffffff';  
         let headerColor = 'text-yellow-300'; 
-        let isAlertPulse = 'alert-pulse'; // 預設危險閃爍特效
+        let isAlertPulse = 'alert-pulse';
 
-        // 🎨 判定底色與特效
         if (specialMsg.includes('警報解除')) {
-          boxBgColor = '#10b981'; // 🟢 解除：令人安心嘅綠色
-          textColor = '#ffffff';
-          headerColor = 'text-white';
-          isAlertPulse = ''; // 🟢 解除唔使閃爍
+          boxBgColor = '#10b981'; textColor = '#ffffff'; headerColor = 'text-white'; isAlertPulse = '';
         } else if (isHk) {
           if (specialMsg.includes('一號')) { boxBgColor = '#fca5a5'; } 
           else if (specialMsg.includes('三號')) { boxBgColor = '#f97316'; } 
@@ -428,36 +356,21 @@
           else if (specialMsg.includes('黃色')) { boxBgColor = '#d97706'; } 
           else if (specialMsg.includes('黑色')) { boxBgColor = '#09090b'; }
         } else {
-          if (specialMsg.includes('白')) {
-            boxBgColor = '#ffffff'; textColor = '#1e293b'; headerColor = 'text-amber-600';
-          } else if (specialMsg.includes('藍') || specialMsg.includes('蓝')) {
-            boxBgColor = '#2563eb';
-          } else if (specialMsg.includes('黃') || specialMsg.includes('黄')) {
-            boxBgColor = '#eab308'; textColor = '#1e293b'; headerColor = 'text-amber-900';
-          } else if (specialMsg.includes('橙')) {
-            boxBgColor = '#f97316';
-          } else if (specialMsg.includes('紅') || specialMsg.includes('红')) {
-            boxBgColor = '#dc2626';
-          }
+          if (specialMsg.includes('白')) { boxBgColor = '#ffffff'; textColor = '#1e293b'; headerColor = 'text-amber-600'; } 
+          else if (specialMsg.includes('藍') || specialMsg.includes('蓝')) { boxBgColor = '#2563eb'; } 
+          else if (specialMsg.includes('黃') || specialMsg.includes('黄')) { boxBgColor = '#eab308'; textColor = '#1e293b'; headerColor = 'text-amber-900'; } 
+          else if (specialMsg.includes('橙')) { boxBgColor = '#f97316'; } 
+          else if (specialMsg.includes('紅') || specialMsg.includes('红')) { boxBgColor = '#dc2626'; }
         }
 
         let rawMsg = specialMsg.replace(/\\n/g, '\n').replace(/\*/g, '').trim(); 
-        let timeInfo = '';
 
-        // ⏱️ 共通步驟：精準抽離時間 (只放卡片頂，唔會干涉左上角常規時間)
         let timeMatch = rawMsg.match(/⏰?\s*(.*時間[^\n]+)/);
         if (timeMatch) {
-            timeInfo = `<div class="text-xs md:text-sm font-bold bg-white/25 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4 backdrop-blur-md shadow-sm border border-white/30 text-inherit w-fit max-w-full break-words whitespace-normal text-center">
-                          <i class="fa-solid fa-clock"></i> ${timeMatch[1].trim()}
-                        </div>`;
             rawMsg = rawMsg.replace(timeMatch[0], '').trim();
         }
 
-        // 🔀 智能分流 Layout 引擎
         if (rawMsg.includes('警報解除')) {
-            // ==========================================
-            // 🟢 條件二：安全解除 Layout (綠色安心版 + 精簡無標點)
-            // ==========================================
             let titleMatch = rawMsg.match(/([✅\s]*【.*?】|[✅\s]*[^\n]+警報解除)/);
             let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : (isHk ? '✅ 香港警報解除' : '✅ 中山警報解除');
             let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
@@ -465,7 +378,6 @@
             htmlBuilder += `
               <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                ${timeInfo}
                 <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${alertTitle}
                 </div>
@@ -476,14 +388,10 @@
             `;
         } 
         else if (rawMsg.includes('提早收工戒備')) {
-            // ==========================================
-            // 🟡 條件三：長文通告 Layout (官方引言美顏版 + 去引號防裁切)
-            // ==========================================
             let titleMatch = rawMsg.match(/([🚨🌪️\s]*【.*?】|[🚨🌪️\s]*提早收工戒備[：:]?[^\n]*)/);
             let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : '🚨 提早收工戒備';
             let remain = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
             
-            // 🧠 智能冒號斷行邏輯
             let formattedTitle = alertTitle;
             if (formattedTitle.includes('：')) {
                 let parts = formattedTitle.split('：');
@@ -493,7 +401,6 @@
                 formattedTitle = `${parts[0]}：<br><span class="inline-block whitespace-nowrap">${parts[1]}</span>`;
             }
 
-            // 抽離並美化結語 (無感嘆號)
             let alertFooter = '';
             let footerMatch = remain.match(/[\n！!]*\s*(💡\s*請各位.*|請注意.*)$/is);
             if (footerMatch) {
@@ -502,30 +409,22 @@
                 remain = remain.replace(footerMatch[0], '').trim();
             }
 
-            // 將正文分行，移除中文引號 「」 保持簡潔
             let alertBody = remain.replace(/[「」]/g, '').replace(/\n+/g, '<br>');
 
             htmlBuilder += `
               <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                ${timeInfo}
-                
                 <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${formattedTitle}
                 </div>
-                
                 <div class="text-sm md:text-base font-medium leading-loose bg-white/15 px-5 py-5 rounded-2xl backdrop-blur-md w-full border border-white/30 border-l-4 border-l-yellow-300 shadow-sm text-left break-words whitespace-normal box-border">
                   ${alertBody}
                 </div>
-                
                 ${alertFooter}
               </div>
             `;
         }
         else {
-            // ==========================================
-            // 🔴 條件四：常規膠囊 Layout (修復版：精簡前綴 +「或」字斷行 + 防裁切)
-            // ==========================================
             let titleMatch = rawMsg.match(/([🚨\s]*【.*?】|[🚨\s]*[^\n]+戒備|[🚨\s]*[^\n]+預警)/);
             let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : (isHk ? '🚨 香港極端天氣預警' : '🚨 中山極端天氣預警');
             let remain = titleMatch ? rawMsg.replace(titleMatch[0], '').trim() : rawMsg;
@@ -539,44 +438,66 @@
             }
 
             let highlightColor = textColor === '#ffffff' ? 'text-white' : 'text-slate-900';
-            let bgPrefixBox = (boxBgColor === '#ffffff') ? 'bg-slate-50 border-slate-100' : 'bg-black/10 border-black/5';
 
-            // 統一前綴：將「天文台現正發出」、「天文台啱啱掛咗」統一轉換為「天文台現正生效：」
             let cleanRemain = remain
-              .replace(/天文台(現正發出|啱啱掛咗|現正生效[：:]?)/g, '天文台現正生效：')
-              .replace(/中山市氣象局(現正發出|啱啱掛咗|現正生效[：:]?)/g, '中山市氣象局現正生效：');
+              .replace(/(天文台|中山市氣象局)(現正發出|啱啱掛咗|現正生效[：:]?)\s*/g, '')
+              .trim();
 
-            // 膠囊標籤處理 + 「或」字智能斷行 (如八號西南烈風<br>或暴風信號)
-            let alertBody = cleanRemain.replace(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/g, (m, emoji, text) => {
-                let parts = text.split('、'); 
-                let capsules = parts.map(p => {
-                    let cleanText = p.trim().replace(/[！!]+$/, '');
-                    if (cleanText.includes('或') && !cleanText.includes('<br>')) {
-                        cleanText = cleanText.replace('或', '<br>或');
-                    }
-                    let bgSpan = boxBgColor === '#ffffff' ? 'bg-white border-slate-200' : 'bg-white/25 border-white/30';
-                    return `<span class="inline-flex items-center justify-center gap-1.5 ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-black text-lg md:text-xl ${highlightColor} drop-shadow-md whitespace-normal shrink-0 max-w-full break-words text-center leading-snug">${emoji} ${cleanText}</span>`;
-                });
-                return `<div class="flex flex-wrap justify-center gap-2 mt-3 mb-1 w-full box-border">${capsules.join('')}</div>`;
+            let capsules = [];
+            let lines = cleanRemain.split(/\n+/);
+            lines.forEach(line => {
+                let lineMatch = line.match(/(🌀|🟡|🔴|⚫|⚠️)\s*([^\n]+)/);
+                if (lineMatch) {
+                    let emoji = lineMatch[1];
+                    let text = lineMatch[2];
+                    let parts = text.split('、'); 
+                    parts.forEach(p => {
+                        let cleanText = p.trim().replace(/[！!]+$/, '');
+                        if (cleanText) {
+                            let titlePart = cleanText;
+                            let timePart = '';
+                            
+                            let timeInParen = cleanText.match(/(.*?)（(.*?)）/);
+                            if (timeInParen) {
+                                titlePart = timeInParen[1].trim();
+                                timePart = timeInParen[2].trim();
+                            }
+
+                            if (titlePart.includes('或') && !titlePart.includes('<br>')) {
+                                titlePart = titlePart.replace('或', '<br>或');
+                            }
+
+                            let innerHtml = `<span>${emoji} ${titlePart}</span>`;
+                            if (timePart) {
+                                innerHtml += `<span class="text-xs font-normal opacity-90 mt-1">${timePart}</span>`;
+                            }
+
+                            let bgSpan = boxBgColor === '#ffffff' ? 'bg-white border-slate-200' : 'bg-white/25 border-white/30';
+                            capsules.push(`<span class="inline-flex flex-col items-center justify-center ${bgSpan} px-4 py-2 rounded-xl shadow-sm border font-black text-lg md:text-xl ${highlightColor} drop-shadow-md text-center leading-snug w-full">${innerHtml}</span>`);
+                        }
+                    });
+                }
             });
-            alertBody = alertBody.replace(/\n+/g, '<br>').replace(/^<br>|<br>$/g, '');
+
+            // 🎯 核心修改：徹底移除「天文台現正生效：」等前綴，只保留簡潔膠囊容器
+            let capsulesContainerHtml = capsules.length > 0 
+                ? `<div class="flex flex-col items-center justify-center gap-2 mt-1 w-full box-border">${capsules.join('')}</div>`
+                : '';
 
             htmlBuilder += `
               <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-6 md:p-8 rounded-3xl shadow-xl border border-white/40 ${isAlertPulse} flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full">
                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-                ${timeInfo}
                 <div class="font-black text-lg sm:text-xl md:text-2xl ${headerColor} mb-4 drop-shadow-md tracking-tight w-full leading-snug whitespace-nowrap">
                   ${alertTitle}
                 </div>
                 
-                <div class="text-base sm:text-lg md:text-xl font-bold leading-relaxed ${bgPrefixBox} px-5 py-4 rounded-2xl backdrop-blur-sm w-full border shadow-inner flex flex-col items-center justify-center box-border">
-                  ${alertBody}
+                <div class="w-full flex flex-col items-center justify-center box-border">
+                  ${capsulesContainerHtml}
                 </div>
                 ${alertFooter}
               </div>
             `;
         }
-
       }
 
       if (htmlBuilder !== '') {
@@ -605,16 +526,7 @@
         const textEl = document.getElementById('copy-text');
         textEl.innerText = '✅ 已成功複製連結！';
         setTimeout(() => { textEl.innerText = '複製網頁連結'; }, 2000);
-      }).catch(() => { alert('請手動複製連結：' + shareUrl); });
-    }
-    function triggerNativeShare() {
-      if (navigator.share) {
-        navigator.share({
-          title: '🌤️ 天氣小助手',
-          text: '平時睇天氣可以試下呢個網頁！地道廣東話香港同中山天氣提示，免下載、免翻牆！',
-          url: window.location.href
-        }).catch(() => {});
-      } else { copyShareLink(); }
+      });
     }
     function openPwaModal() { document.getElementById('pwa-modal').classList.remove('hidden'); }
     function closePwaModal() { document.getElementById('pwa-modal').classList.add('hidden'); }
@@ -624,19 +536,6 @@
     document.getElementById('share-modal').addEventListener('click', function(e) { if (e.target === this) closeShareModal(); });
     document.getElementById('pwa-modal').addEventListener('click', function(e) { if (e.target === this) closePwaModal(); });
     document.getElementById('info-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        const swCode = `
-          self.addEventListener('install', (e) => self.skipWaiting());
-          self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-          self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
-        `;
-        const blob = new Blob([swCode], { type: 'text/javascript' });
-        const blobUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(blobUrl).catch(() => {});
-      });
-    }
 
     fetchWeather('hk');
   </script>
