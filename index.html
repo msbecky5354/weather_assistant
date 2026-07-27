@@ -223,14 +223,123 @@
     </div>
   </div>
 
+  <!-- 關於我們與條款 Modal (支持 3 語切換) -->
   <div id="info-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden font-noto-hk">
-    <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl border border-white">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold">✕</button>
+    <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full max-h-[85vh] overflow-y-auto p-5 md:p-7 space-y-4 relative shadow-2xl border border-white">
+      
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold transition-all">✕</button>
+
       <div class="text-center border-b border-slate-100 pb-3">
-        <h2 class="text-2xl font-black text-slate-800">🌤️ 關於我們與條款</h2>
+        <h2 class="text-xl md:text-2xl font-black text-slate-800">🌤️ 關於我們與條款</h2>
       </div>
+
+      <!-- 語言切換 Tabs -->
+      <div class="flex rounded-xl bg-slate-100 p-1 gap-1 text-xs md:text-sm font-bold">
+        <button id="lang-btn-hk" onclick="switchLang('hk')" class="flex-1 py-1.5 rounded-lg transition-all bg-white text-sky-700 shadow-sm">繁體中文</button>
+        <button id="lang-btn-zs" onclick="switchLang('zs')" class="flex-1 py-1.5 rounded-lg transition-all text-slate-500 hover:text-slate-800">简体中文</button>
+        <button id="lang-btn-en" onclick="switchLang('en')" class="flex-1 py-1.5 rounded-lg transition-all text-slate-500 hover:text-slate-800">English</button>
+      </div>
+
+      <!-- 繁體中文內容 -->
+      <div id="lang-content-hk" class="space-y-4 text-xs md:text-sm text-slate-600 leading-relaxed">
+        <div>
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-sky-600"></i> 關於天氣小助手
+          </h3>
+          <p>「天氣小助手」係一款專為 <strong>香港朋友</strong>、<strong>去中山玩嘅港車北上香港朋友</strong>，以及 <strong>住喺中山嘅香港朋友</strong> 而設嘅極簡廣東話天氣工具。</p>
+          
+          <div class="mt-2 bg-sky-50/80 p-3 rounded-2xl border border-sky-100 space-y-1">
+            <p class="font-bold text-sky-900">💡 官方 App 都有大灣區天氣，點解仲需要「天氣小助手」？</p>
+            <p class="text-slate-700">官方 App 資訊雖然全面，但往往文字較長、選單較多。「天氣小助手」主打<strong>「極速、地道、一目了然」</strong>，幫您將繁雜數據轉化為最直接嘅廣東話懶人卡：</p>
+          </div>
+
+          <ul class="list-disc list-inside space-y-1.5 mt-2.5 text-slate-700">
+            <li><strong>🗣️ 地道廣東話 + 膠囊標籤</strong>：自動清洗官方冗長贅詞，將突發預警拆解成彩色「膠囊標籤」，3 秒鐘即刻睇完重點。</li>
+            <li><strong>🇭🇰🚗🇨🇳 香港 / 中山 雙氣象一鍵對照</strong>：同一套簡潔介面，🇭🇰 香港與 🇨🇳 中山一鍵切換，輕鬆讀懂兩地氣象警戒。</li>
+            <li><strong>🎨 動態五級警戒視覺</strong>：極端天氣發生時，卡片自動變換警戒色彩（如黑雨/十號風球呈現深黑/極致紅並伴隨呼吸閃爍），一眼就能感知危險程度。</li>
+            <li><strong>⚡ 免下載、極輕量 PWA</strong>：開啟網頁即用，唔佔手機記憶體，零廣告干擾，亦可一鍵加到手機桌面當 App 使用。</li>
+            <li><strong>🚨 1 分鐘雲端實時巡邏</strong>：每 1 分鐘自動對接香港天文台與中山氣象局 API，突發極端天氣即時同步。</li>
+          </ul>
+        </div>
+        <hr class="border-slate-100">
+        <div class="space-y-1.5">
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-contract text-amber-600"></i> 使用須知與免責
+          </h3>
+          <p><strong>・數據來源：</strong>所有氣象資料每 1 分鐘自動同步自香港天文台及中山市氣象局官方公開 API。</p>
+          <p><strong>・溫馨提示：</strong>本工具資料僅供日常生活及出行參考。遇上颱風、暴雨等極端天氣，請以兩地官方最新廣播為準。</p>
+          <p><strong>・私隱承諾：</strong>本工具絕不收集任何個人資料或定位資訊，請安心使用。</p>
+        </div>
+      </div>
+
+      <!-- 簡體中文內容 -->
+      <div id="lang-content-zs" class="space-y-4 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+        <div>
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-emerald-600"></i> 关于天气小助手
+          </h3>
+          <p>“天气小助手”是一款专为 <strong>香港本地朋友</strong>、<strong>去中山玩的港车北上香港朋友</strong>，以及 <strong>住在中山的香港朋友</strong> 打造的极简粤语天气工具。</p>
+
+          <div class="mt-2 bg-emerald-50/80 p-3 rounded-2xl border border-emerald-100 space-y-1">
+            <p class="font-bold text-emerald-900">💡 官方 App 也有大湾区天气，为什么还需要“天气小助手”？</p>
+            <p class="text-slate-700">官方 App 信息虽然全面，但往往文字较长、菜单较多。“天气小助手”主打<strong>“极速、地道、一目了然”</strong>，帮您将繁杂数据转化为最直接的粤语懒人卡：</p>
+          </div>
+
+          <ul class="list-disc list-inside space-y-1.5 mt-2.5 text-slate-700">
+            <li><strong>🗣️ 地道粤语 + 胶囊标签</strong>：自动清洗官方冗长赘词，将突发预警拆解成彩色“胶囊标签”，3 秒钟看懂重点。</li>
+            <li><strong>🇭🇰🚗🇨🇳 香港 / 中山 双气象一键对照</strong>：同一套简洁界面，🇭🇰 香港与 🇨🇳 中山一键切换，轻松读懂两地气象警戒。</li>
+            <li><strong>🎨 动态五级警戒视觉</strong>：极端天气发生时，卡片自动变换警戒色彩，一眼感知危险程度。</li>
+            <li><strong>⚡ 免下载、极轻量 PWA</strong>：网页即开即用，不占手机内存，无广告打扰，亦可一键添加至桌面。</li>
+            <li><strong>🚨 1 分钟云端实时巡逻</strong>：每 1 分钟自动对接两地官方 API，极端天气实时同步。</li>
+          </ul>
+        </div>
+        <hr class="border-slate-100">
+        <div class="space-y-1.5">
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-contract text-amber-600"></i> 使用须知与免责
+          </h3>
+          <p><strong>・数据来源：</strong>所有数据每 1 分钟自动同步自香港天文台及中山市气象局官方公开 API。</p>
+          <p><strong>・温馨提示：</strong>本工具数据仅供日常生活及出行参考。遇到台风、暴雨等极端天气，请以两地官方最新发布为准。</p>
+          <p><strong>・隐私承诺：</strong>本工具绝不收集任何个人数据或定位信息，请安心使用。</p>
+        </div>
+      </div>
+
+      <!-- English 內容 -->
+      <div id="lang-content-en" class="space-y-4 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+        <div>
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-indigo-600"></i> About Weather Assistant
+          </h3>
+          <p><strong>Weather Assistant</strong> is a lightweight weather utility designed for <strong>Hong Kong friends</strong>, <strong>HK friends driving north to Zhongshan for fun</strong>, and <strong>HK friends residing in Zhongshan</strong>.</p>
+
+          <div class="mt-2 bg-indigo-50/80 p-3 rounded-2xl border border-indigo-100 space-y-1">
+            <p class="font-bold text-indigo-900">💡 Why Weather Assistant alongside official apps?</p>
+            <p class="text-slate-700">While official apps offer comprehensive reports, they can be text-heavy. Weather Assistant delivers a <strong>fast, local, 3-second quick read</strong>:</p>
+          </div>
+
+          <ul class="list-disc list-inside space-y-1.5 mt-2.5 text-slate-700">
+            <li><strong>🗣️ Local Cantonese & Capsules</strong>: Automatically cleans up dense jargon and extracts severe alerts into clear visual capsules.</li>
+            <li><strong>🇭🇰🚗🇨🇳 HK & Zhongshan 1-Tap Toggle</strong>: Effortlessly switch between HK and Zhongshan weather alerts on a single page.</li>
+            <li><strong>🎨 Dynamic Threat Colors</strong>: Backgrounds dynamically change according to threat level for immediate visual awareness.</li>
+            <li><strong>⚡ Lightweight PWA</strong>: Opens instantly via web browser with zero storage wasted and no ads.</li>
+            <li><strong>🚨 1-Minute Cloud Sync</strong>: Automatically fetches updates from official APIs every 1 minute.</li>
+          </ul>
+        </div>
+        <hr class="border-slate-100">
+        <div class="space-y-1.5">
+          <h3 class="font-black text-slate-800 text-sm md:text-base mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-contract text-amber-600"></i> Notice & Privacy
+          </h3>
+          <p><strong>・Data Source:</strong> Synced every minute from public APIs of HKO and Zhongshan Meteorological Bureau.</p>
+          <p><strong>・Disclaimer:</strong> For daily reference and travel convenience. Follow official government broadcasts during severe weather.</p>
+          <p><strong>・Privacy:</strong> Zero personal data or location tracking collected.</p>
+        </div>
+      </div>
+
       <div class="pt-2 text-center">
-        <button onclick="closeModal()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all">我明白咗</button>
+        <button onclick="closeModal()" class="bg-sky-600 hover:bg-sky-700 active:scale-95 text-white font-bold py-2.5 px-8 rounded-xl shadow-md transition-all text-sm">
+          我明白咗 / I Understand
+        </button>
       </div>
     </div>
   </div>
@@ -535,6 +644,21 @@
     function closePwaModal() { document.getElementById('pwa-modal').classList.add('hidden'); }
     function openModal() { document.getElementById('info-modal').classList.remove('hidden'); }
     function closeModal() { document.getElementById('info-modal').classList.add('hidden'); }
+
+    function switchLang(lang) {
+      const langs = ['hk', 'zs', 'en'];
+      langs.forEach(l => {
+        const btn = document.getElementById(`lang-btn-${l}`);
+        const content = document.getElementById(`lang-content-${l}`);
+        if (l === lang) {
+          btn.className = 'flex-1 py-1.5 rounded-lg transition-all bg-white text-sky-700 shadow-sm';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'flex-1 py-1.5 rounded-lg transition-all text-slate-500 hover:text-slate-800';
+          content.classList.add('hidden');
+        }
+      });
+    }
 
     document.getElementById('share-modal').addEventListener('click', function(e) { if (e.target === this) closeShareModal(); });
     document.getElementById('pwa-modal').addEventListener('click', function(e) { if (e.target === this) closePwaModal(); });
