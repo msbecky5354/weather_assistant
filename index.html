@@ -664,7 +664,14 @@
     document.getElementById('pwa-modal').addEventListener('click', function(e) { if (e.target === this) closePwaModal(); });
     document.getElementById('info-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
-    fetchWeather('hk');
+  const urlParams = new URLSearchParams(window.location.search);
+const region = urlParams.get('region');
+
+if (region === 'zs') {
+  switchCity('zs'); // 自動開中山
+} else {
+  switchCity('hk'); // 預設開香港
+}
   </script>
 </body>
 </html>
