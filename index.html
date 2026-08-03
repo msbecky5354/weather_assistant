@@ -255,7 +255,7 @@
 
           <ul class="list-disc list-inside space-y-1.5 mt-2.5 text-slate-700">
             <li><strong>🗣️ 地道廣東話 + 膠囊標籤</strong>：自動清洗官方冗長贅詞，將突發預警拆解成彩色「膠囊標籤」，3 秒鐘即刻睇完重點。</li>
-            <li><strong>🇭🇰🚗🇨🇳 香港 / 中山 雙氣象一鍵對照</strong>：同一套簡潔介面，🇭🇰 香港與 🇨🇳 中山一鍵切換，輕鬆讀懂兩地氣象警戒。</li>
+            <li><strong>🇭🇰🚗🇨🇳 香港 / 中山 雙氣象一鍵對照</strong>：同一套簡潔介面，🇭🇰 香港與 🇨🇳 中山一鍵切換，輕鬆讀懂兩地氣候警戒。</li>
             <li><strong>🎨 動態五級警戒視覺</strong>：極端天氣發生時，卡片自動變換警戒色彩（如黑雨/十號風球呈現深黑/極致紅並伴隨呼吸閃爍），一眼就能感知危險程度。</li>
             <li><strong>⚡ 免下載、極輕量 PWA</strong>：開啟網頁即用，唔佔手機記憶體，零廣告干擾，亦可一鍵加到手機桌面當 App 使用。</li>
             <li><strong>🚨 1 分鐘雲端實時巡邏</strong>：每 1 分鐘自動對接香港天文台與中山氣象局 API，突發極端天氣即時同步。</li>
@@ -487,6 +487,9 @@
             let titleMatch = rawMsg.match(/([✅\s]*【.*?】|[✅\s]*[^\n]+警報解除)/);
             let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : (isHk ? '✅ 香港警報解除' : '✅ 中山警報解除');
             let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
+
+            // 💡 自動喺「（公佈時間...）」前加上 <br> 換行
+            alertBody = alertBody.replace(/([（\(]\s*公佈時間)/g, '<br>$1');
 
             htmlBuilder += `
               <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center mt-2 transition-colors duration-500 relative overflow-hidden w-full box-border h-full font-noto-hk">
