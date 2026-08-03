@@ -303,6 +303,9 @@
                         let alertTitle = titleMatch ? titleMatch[1].replace(/[【】]/g, '').trim() : `✅ ${isHk ? '香港' : '中山'}警報解除`;
                         let alertBody = titleMatch ? rawMsg.replace(titleMatch[0], '').replace(/[！!]+$/g, '').trim() : rawMsg.replace(/[！!]+$/g, '').trim();
 
+                        // 💡 自動喺「（公佈時間...）」前加上 <br> 換行
+                        alertBody = alertBody.replace(/([（\(]\s*公佈時間)/g, '<br>$1');
+
                         contentHTML = `
                             <div style="background-color: ${boxBgColor}; color: ${textColor};" class="p-5 md:p-6 rounded-3xl shadow-lg border border-white/40 flex flex-col items-center text-center transition-colors relative overflow-hidden w-full box-border font-noto-hk">
                                 <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
